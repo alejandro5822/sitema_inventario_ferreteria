@@ -16,6 +16,17 @@ app.get('/', (req, res) => {
   res.send('API Inventario Ferretería funcionando ✅');
 });
 
+// Probar conexión a la base de datos
+app.get('/db-test', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.json({ dbTime: result.rows[0].now });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error conectando a la base de datos' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
