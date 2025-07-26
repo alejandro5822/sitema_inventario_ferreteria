@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 // Probar conexión a la base de datos
 app.get('/db-test', async (req, res) => {
   try {
-    const result = await db.pool.query('SELECT NOW()');
+    const result = await db.query('SELECT NOW()');
     res.json({ dbTime: result.rows[0].now });
   } catch (err) {
     console.error(err);
