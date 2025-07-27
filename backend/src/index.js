@@ -10,6 +10,8 @@ import subcategoriasRoutes from './routes/subcategoriasRoutes.js';
 import proveedoresRoutes from './routes/proveedoresRoutes.js';
 import productosRoutes from './routes/productosRoutes.js';
 import { fileURLToPath } from 'url';
+import movimientosRoutes from './routes/movimientosRoutes.js';
+import historialRoutes from './routes/historialRoutes.js';
 
 
 dotenv.config();
@@ -35,6 +37,8 @@ app.use('/api/proveedores', proveedoresRoutes);
 app.use('/api/productos', productosRoutes);
 // Para servir imágenes subidas
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/api/movimientos', movimientosRoutes);
+app.use('/api/historial-stock', historialRoutes);
 
 // Probar conexión a la base de datos
 app.get('/db-test', async (req, res) => {
