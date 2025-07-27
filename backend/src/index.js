@@ -1,12 +1,21 @@
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import pool from './config/db.js';
+import rolesRoutes from './routes/rolesRoutes.js';
+import usuariosRoutes from './routes/usuariosRoutes.js';
+import categoriasRoutes from './routes/categoriasRoutes.js';
+import subcategoriasRoutes from './routes/subcategoriasRoutes.js';
+import proveedoresRoutes from './routes/proveedoresRoutes.js';
 import productosRoutes from './routes/productosRoutes.js';
+import { fileURLToPath } from 'url';
+
 
 dotenv.config();
 
 const app = express();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 4000;
 
 app.use(cors());
@@ -16,6 +25,16 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('API Inventario Ferretería funcionando ✅');
 });
+
+// Rutas de productos
+app.use('/api/roles', rolesRoutes);
+app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/categorias', categoriasRoutes);
+app.use('/api/subcategorias', subcategoriasRoutes);
+app.use('/api/proveedores', proveedoresRoutes);
+app.use('/api/productos', productosRoutes);
+// Para servir imágenes subidas
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Probar conexión a la base de datos
 app.get('/db-test', async (req, res) => {
@@ -27,9 +46,6 @@ app.get('/db-test', async (req, res) => {
     res.status(500).json({ error: 'Error conectando a la base de datos' });
   }
 });
-
-// Rutas de productos
-app.use('/api/productos', productosRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
