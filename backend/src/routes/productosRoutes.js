@@ -1,9 +1,13 @@
 import express from 'express';
-import { obtenerProductos, crearProducto } from '../controllers/productosController.js';
+import { upload } from '../middlewares/upload.js';
+import { crearProducto, listarProductos } from '../controllers/productosController.js';
 
 const router = express.Router();
 
-router.get('/', obtenerProductos);
-router.post('/', crearProducto);
+// Ruta POST con imagen
+router.post('/', upload.single('imagen'), crearProducto);
+// Ruta GET para listar productos
+router.get('/', listarProductos);
+
 
 export default router;
