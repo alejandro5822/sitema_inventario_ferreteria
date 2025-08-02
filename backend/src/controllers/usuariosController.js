@@ -1,5 +1,6 @@
 // backend/src/controllers/usuariosController.js
 import pool from '../config/db.js';
+import bcrypt from 'bcryptjs';
 
 // Obtener todos los usuarios
 export const obtenerUsuarios = async (req, res) => {
@@ -19,13 +20,19 @@ export const obtenerUsuarios = async (req, res) => {
 
 // Crear un nuevo usuario
 export const crearUsuario = async (req, res) => {
-  const { nombre, correo, contrasena, rol_id } = req.body;
   try {
-    const result = await pool.query(
-      'INSERT INTO usuarios(nombre, correo, contrasena, rol_id) VALUES($1, $2, $3, $4) RETURNING *',
-      [nombre, correo, contrasena, rol_id]
+    const { nombre, correo, contrasena, rol_id } = req.body;
+
+    const salt = await bcrypt.genSalt(10);
+    const hashContrasena = await bcrypt.hash(contrasena, salt);
+
+    const resultado = await pool.query(
+      `INSERT INTO usuarios (nombre, correo, contrasena, rol_id)
+       VALUES ($1, $2, $3, $4) RETURNING id`,
+      [nombre, correo, hashContrasena, rol_id]
     );
-    res.status(201).json(result.rows[0]);
+
+    res.status(201).json({ mensaje: 'Usuario creado correctamente', id: resultado.rows[0].id });
   } catch (error) {
     console.error('Error al crear usuario:', error);
     res.status(500).json({ error: 'Error al crear usuario' });

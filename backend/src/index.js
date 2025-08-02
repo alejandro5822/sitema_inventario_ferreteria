@@ -12,6 +12,8 @@ import productosRoutes from './routes/productosRoutes.js';
 import { fileURLToPath } from 'url';
 import movimientosRoutes from './routes/movimientosRoutes.js';
 import historialRoutes from './routes/historialRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import protectedRoutes from './routes/protectedRoutes.js';
 
 
 dotenv.config();
@@ -28,7 +30,9 @@ app.get('/', (req, res) => {
   res.send('API Inventario Ferretería funcionando ✅');
 });
 
-// Rutas de productos
+// Rutas de inventario
+app.use('/api/auth', authRoutes);
+app.use('/api/protegido', protectedRoutes);
 app.use('/api/roles', rolesRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/categorias', categoriasRoutes);
