@@ -6,16 +6,21 @@ import {
   obtenerUsuarioPorId,
   actualizarUsuario,
   eliminarUsuario,
+  obtenerPerfil,
+  actualizarPerfil,
 } from "../controllers/usuariosController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
 import { verificarRol } from "../middlewares/verificarRol.js";
 
 const router = express.Router();
 
-router.get("/", verificarToken, verificarRol(['administrador']), obtenerUsuarios);
-router.post("/", verificarToken, verificarRol(['administrador']), crearUsuario);
-router.get("/:id", verificarToken, verificarRol(['administrador']), obtenerUsuarioPorId);
-router.put("/:id", verificarToken, verificarRol(['administrador']), actualizarUsuario);
-router.delete("/:id", verificarToken, verificarRol(['administrador']), eliminarUsuario);
+router.get('/perfil', verificarToken, obtenerPerfil);
+router.put('/perfil', verificarToken, actualizarPerfil);
+
+router.get("/", verificarToken, verificarRol(['Administrador']), obtenerUsuarios);
+router.post("/", verificarToken, verificarRol(['Administrador']), crearUsuario);
+router.get("/:id", verificarToken, verificarRol(['Administrador']), obtenerUsuarioPorId);
+router.put("/:id", verificarToken, verificarRol(['Administrador']), actualizarUsuario);
+router.delete("/:id", verificarToken, verificarRol(['Administrador']), eliminarUsuario);
 
 export default router;

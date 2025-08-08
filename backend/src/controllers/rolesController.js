@@ -15,8 +15,9 @@ export const obtenerRoles = async (req, res) => {
 // Crear un nuevo rol
 export const crearRol = async (req, res) => {
   const { nombre } = req.body;
+  const { descripcion } = req.body;
   try {
-    const result = await pool.query('INSERT INTO roles(nombre) VALUES($1) RETURNING *', [nombre]);
+    const result = await pool.query('INSERT INTO roles(nombre, descripcion) VALUES($1, $2) RETURNING *', [nombre, descripcion]);
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error('Error al crear rol:', error);
@@ -42,11 +43,11 @@ export const obtenerRolPorId = async (req, res) => {
 // Actualizar un rol
 export const actualizarRol = async (req, res) => {
   const { id } = req.params;
-  const { nombre } = req.body;
+  const { nombre, descripcion } = req.body;
   try {
     const result = await pool.query(
-      'UPDATE roles SET nombre = $1 WHERE id = $2 RETURNING *',
-      [nombre, id]
+      'UPDATE roles SET nombre = $1, descripcion = $2 WHERE id = $3 RETURNING *',
+      [nombre, descripcion, id]
     );
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Rol no encontrado' });

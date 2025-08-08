@@ -1,13 +1,13 @@
 // backend/src/controllers/proveedoresController.js
-import pool from '../config/db.js';
+import pool from "../config/db.js";
 
 export const obtenerProveedores = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM proveedores ORDER BY id');
+    const result = await pool.query("SELECT * FROM proveedores ORDER BY id");
     res.json(result.rows);
   } catch (error) {
-    console.error('Error al obtener proveedores:', error);
-    res.status(500).json({ error: 'Error al obtener proveedores' });
+    console.error("Error al obtener proveedores:", error);
+    res.status(500).json({ error: "Error al obtener proveedores" });
   }
 };
 
@@ -21,22 +21,24 @@ export const crearProveedor = async (req, res) => {
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
-    console.error('Error al crear proveedor:', error);
-    res.status(500).json({ error: 'Error al crear proveedor' });
+    console.error("Error al crear proveedor:", error);
+    res.status(500).json({ error: "Error al crear proveedor" });
   }
 };
 
 export const obtenerProveedorPorId = async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('SELECT * FROM proveedores WHERE id = $1', [id]);
+    const result = await pool.query("SELECT * FROM proveedores WHERE id = $1", [
+      id,
+    ]);
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Proveedor no encontrado' });
+      return res.status(404).json({ error: "Proveedor no encontrado" });
     }
     res.json(result.rows[0]);
   } catch (error) {
-    console.error('Error al obtener proveedor:', error);
-    res.status(500).json({ error: 'Error al obtener proveedor' });
+    console.error("Error al obtener proveedor:", error);
+    res.status(500).json({ error: "Error al obtener proveedor" });
   }
 };
 
@@ -51,25 +53,40 @@ export const actualizarProveedor = async (req, res) => {
       [nombre, telefono, correo, direccion, id]
     );
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Proveedor no encontrado' });
+      return res.status(404).json({ error: "Proveedor no encontrado" });
     }
     res.json(result.rows[0]);
   } catch (error) {
-    console.error('Error al actualizar proveedor:', error);
-    res.status(500).json({ error: 'Error al actualizar proveedor' });
+    console.error("Error al actualizar proveedor:", error);
+    res.status(500).json({ error: "Error al actualizar proveedor" });
   }
 };
 
 export const eliminarProveedor = async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('DELETE FROM proveedores WHERE id = $1 RETURNING *', [id]);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Proveedor no encontrado' });
+    //verifica si tiene productos asociados
+    const resultado = await pool.query(
+      "SELECT COUNT(*) FROM productos WHERE proveedor_id = $1",
+      [id]
+    );
+
+    const totalProductos = parseInt(resultado.rows[0].count);
+
+    if (totalProductos > 0) {
+      return res
+        .status(400)
+        .json({
+          error:
+            "No se puede eliminar el proveedor porque tiene productos asociados",
+        });
     }
-    res.json({ mensaje: 'Proveedor eliminado correctamente' });
+
+    await pool.query("DELETE FROM proveedores WHERE id = $1", [id]);
+
+    res.json({ mensaje: "Proveedor eliminado correctamente" });
   } catch (error) {
-    console.error('Error al eliminar proveedor:', error);
-    res.status(500).json({ error: 'Error al eliminar proveedor' });
+    console.error("Error al eliminar proveedor:", error);
+    res.status(500).json({ error: "Error al eliminar proveedor" });
   }
 };

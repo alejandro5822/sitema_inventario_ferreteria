@@ -57,16 +57,33 @@ export const actualizarCategoria = async (req, res) => {
   }
 };
 
+// controllers/categoriasController.js
+
 export const eliminarCategoria = async (req, res) => {
   const { id } = req.params;
+
   try {
-    const result = await pool.query('DELETE FROM categorias WHERE id = $1 RETURNING *', [id]);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Categoría no encontrada' });
+    // Verificar si hay subcategorías asociadas
+    const resultado = await pool.query(
+      'SELECT COUNT(*) FROM subcategorias WHERE categoria_id = $1',
+      [id]
+    );
+
+    const totalSubcategorias = parseInt(resultado.rows[0].count);
+
+    if (totalSubcategorias > 0) {
+      return res.status(400).json({
+        error: 'No se puede eliminar la categoría porque tiene subcategorías asociadas',
+      });
     }
+
+    // Si no hay subcategorías, eliminar la categoría
+    await pool.query('DELETE FROM categorias WHERE id = $1', [id]);
+
     res.json({ mensaje: 'Categoría eliminada correctamente' });
   } catch (error) {
     console.error('Error al eliminar categoría:', error);
-    res.status(500).json({ error: 'Error al eliminar categoría' });
+    res.status(500).json({ error: 'No se pudo eliminar la categoría' });
   }
 };
+

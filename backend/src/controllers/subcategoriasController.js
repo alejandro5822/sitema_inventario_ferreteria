@@ -64,14 +64,28 @@ export const actualizarSubcategoria = async (req, res) => {
 
 export const eliminarSubcategoria = async (req, res) => {
   const { id } = req.params;
+
   try {
-    const result = await pool.query('DELETE FROM subcategorias WHERE id = $1 RETURNING *', [id]);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Subcategoría no encontrada' });
+    // Verifica si hay productos asociados
+    const resultado = await pool.query(
+      'SELECT COUNT(*) FROM productos WHERE subcategoria_id = $1',
+      [id]
+    );
+
+    const totalProductos = parseInt(resultado.rows[0].count);
+
+    if (totalProductos > 0) {
+      return res.status(400).json({
+        error: 'No se puede eliminar la subcategoría porque tiene productos asociados',
+      });
     }
+
+    await pool.query('DELETE FROM subcategorias WHERE id = $1', [id]);
+
     res.json({ mensaje: 'Subcategoría eliminada correctamente' });
   } catch (error) {
     console.error('Error al eliminar subcategoría:', error);
-    res.status(500).json({ error: 'Error al eliminar subcategoría' });
+    res.status(500).json({ error: 'No se pudo eliminar subcategoría' });
   }
 };
+

@@ -59,10 +59,30 @@ export const actualizarUsuario = async (req, res) => {
   const { id } = req.params;
   const { nombre, correo, contrasena, rol_id, estado } = req.body;
   try {
-    const result = await pool.query(
-      'UPDATE usuarios SET nombre=$1, correo=$2, contrasena=$3, rol_id=$4, estado=$5 WHERE id=$6 RETURNING *',
-      [nombre, correo, contrasena, rol_id, estado, id]
-    );
+    let query, params;
+
+    if (contrasena) {
+      // Si se envía nueva contraseña, encriptar
+      const salt = await bcrypt.genSalt(10);
+      const hashContrasena = await bcrypt.hash(contrasena, salt);
+
+      query = `
+        UPDATE usuarios
+        SET nombre=$1, correo=$2, contrasena=$3, rol_id=$4, estado=$5
+        WHERE id=$6 RETURNING *
+      `;
+      params = [nombre, correo, hashContrasena, rol_id, estado, id];
+    } else {
+      // Si no se envía, no actualizar la contraseña
+      query = `
+        UPDATE usuarios
+        SET nombre=$1, correo=$2, rol_id=$3, estado=$4
+        WHERE id=$5 RETURNING *
+      `;
+      params = [nombre, correo, rol_id, estado, id];
+    }
+
+    const result = await pool.query(query, params);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
@@ -87,3 +107,56 @@ export const eliminarUsuario = async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar usuario' });
   }
 };
+
+// Obtener perfil del usuario logueado
+export const obtenerPerfil = async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT id, nombre, correo, rol_id, estado, fecha_creacion FROM usuarios WHERE id = $1',
+      [req.usuario.id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al obtener perfil:', error);
+    res.status(500).json({ error: 'Error al obtener perfil' });
+  }
+};
+
+// Actualizar perfil del usuario logueado
+export const actualizarPerfil = async (req, res) => {
+  const { nombre, correo, contrasena } = req.body;
+  try {
+    let query, params;
+
+    if (contrasena) {
+      const salt = await bcrypt.genSalt(10);
+      const hashContrasena = await bcrypt.hash(contrasena, salt);
+      query = `
+        UPDATE usuarios
+        SET nombre=$1, correo=$2, contrasena=$3
+        WHERE id=$4 RETURNING id, nombre, correo, rol_id, estado, fecha_creacion
+      `;
+      params = [nombre, correo, hashContrasena, req.usuario.id];
+    } else {
+      query = `
+        UPDATE usuarios
+        SET nombre=$1, correo=$2
+        WHERE id=$3 RETURNING id, nombre, correo, rol_id, estado, fecha_creacion
+      `;
+      params = [nombre, correo, req.usuario.id];
+    }
+
+    const result = await pool.query(query, params);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al actualizar perfil:', error);
+    res.status(500).json({ error: 'Error al actualizar perfil' });
+  }
+};
+

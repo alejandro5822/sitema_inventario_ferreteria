@@ -1,7 +1,9 @@
 -- Tabla de Roles
 CREATE TABLE roles (
   id SERIAL PRIMARY KEY,
-  nombre VARCHAR(50) NOT NULL UNIQUE
+  nombre VARCHAR(50) NOT NULL UNIQUE,
+  descripcion TEXT,
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabla de Usuarios del sistema
