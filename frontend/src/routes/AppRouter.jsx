@@ -13,6 +13,7 @@ import HistorialStock from "../pages/HistorialStock.jsx";
 import Movimientos from "../pages/Movimientos.jsx";
 import Configuracion from "../pages/Configuracion.jsx";
 import Categorias from "../pages/Categorias.jsx";
+import Reposiciones from "../pages/Reposiciones.jsx";
 
 export default function AppRouter() {
   const { usuario } = useAuthContext();
@@ -42,6 +43,7 @@ export default function AppRouter() {
           <Route path="usuarios" element={<Usuarios />} />
           <Route path="roles" element={<Roles />} />
           <Route path="configuracion" element={<Configuracion />} />
+          <Route path="reposiciones" element={<Reposiciones />} />
           {/* Otras rutas anidadas */}
         </Route>
         <Route path="*" element={<Navigate to="/" />} />

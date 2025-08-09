@@ -14,6 +14,7 @@ import movimientosRoutes from './routes/movimientosRoutes.js';
 import historialRoutes from './routes/historialRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import protectedRoutes from './routes/protectedRoutes.js';
+import reposicionesRoutes from './routes/reposicionesRoutes.js';
 
 
 dotenv.config();
@@ -39,6 +40,7 @@ app.use('/api/categorias', categoriasRoutes);
 app.use('/api/subcategorias', subcategoriasRoutes);
 app.use('/api/proveedores', proveedoresRoutes);
 app.use('/api/productos', productosRoutes);
+app.use('/api/reposiciones', reposicionesRoutes);
 // Para servir imágenes subidas
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/api/movimientos', movimientosRoutes);

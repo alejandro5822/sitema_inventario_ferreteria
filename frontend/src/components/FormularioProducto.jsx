@@ -9,6 +9,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
     nombre: "",
     descripcion: "",
     precio: "",
+    precio_compra: "",
     stock: "",
     categoria_id: "",
     subcategoria_id: "",
@@ -26,6 +27,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         nombre: producto.nombre,
         descripcion: producto.descripcion,
         precio: producto.precio,
+        precio_compra: producto.precio_compra,
         stock: producto.stock,
         categoria_id: producto.categoria_id,
         subcategoria_id: producto.subcategoria_id,
@@ -118,6 +120,15 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         value={formulario.precio}
         onChange={handleChange}
         placeholder="Precio"
+        required
+        className="border px-3 py-2 rounded"
+      />
+      <input
+        type="number"
+        name="precio_compra"
+        value={formulario.precio_compra}
+        onChange={handleChange}
+        placeholder="Precio de compra"
         required
         className="border px-3 py-2 rounded"
       />

@@ -47,6 +47,7 @@ CREATE TABLE productos (
   nombre VARCHAR(150) NOT NULL,
   descripcion TEXT,
   precio NUMERIC(10,2) NOT NULL,
+  precio_compra NUMERIC(10,2) DEFAULT 0 CHECK (precio_compra >= 0),
   stock INTEGER DEFAULT 0 CHECK (stock >= 0),
   imagen_url TEXT,
   categoria_id INTEGER REFERENCES categorias(id),
@@ -77,4 +78,19 @@ CREATE TABLE historial_stock (
   motivo TEXT,
   usuario_id INTEGER REFERENCES usuarios(id),
   fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+--Tabla reposiciones (auditoria)
+CREATE TABLE reposiciones (
+  id SERIAL PRIMARY KEY,
+  producto_id INTEGER REFERENCES productos(id) ON DELETE CASCADE,
+  proveedor_id INTEGER REFERENCES proveedores(id) ON DELETE SET NULL,
+  cantidad_solicitada INTEGER NOT NULL CHECK (cantidad_solicitada > 0),
+  precio_unitario NUMERIC(10,2) CHECK (precio_unitario >= 0),
+  precio_total NUMERIC(12,2) GENERATED ALWAYS AS (cantidad_solicitada * precio_unitario) STORED,
+  estado VARCHAR(20) NOT NULL DEFAULT 'pendiente' 
+         CHECK (estado IN ('pendiente', 'recibido', 'cancelado')),
+  usuario_id INTEGER REFERENCES usuarios(id), -- quién hizo la solicitud
+  fecha_solicitud TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  fecha_recepcion TIMESTAMP
 );
