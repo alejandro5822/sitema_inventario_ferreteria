@@ -6,7 +6,6 @@ import Login from "../pages/Login.jsx";
 import Usuarios from "../pages/Usuarios.jsx";
 import SubCategorias from "../pages/SubCategorias.jsx";
 import Roles from "../pages/Roles.jsx";
-import Reportes from "../pages/Reportes.jsx";
 import Proveedores from "../pages/Proveedores.jsx";
 import Productos from "../pages/Productos.jsx";
 import HistorialStock from "../pages/HistorialStock.jsx";
@@ -39,7 +38,6 @@ export default function AppRouter() {
           <Route path="proveedores" element={<Proveedores />} />
           <Route path="movimientos" element={<Movimientos />} />
           <Route path="historial-stock" element={<HistorialStock />} />
-          <Route path="reportes" element={<Reportes />} />
           <Route path="usuarios" element={<Usuarios />} />
           <Route path="roles" element={<Roles />} />
           <Route path="configuracion" element={<Configuracion />} />

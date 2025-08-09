@@ -74,7 +74,7 @@ const Usuarios = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full border bg-white shadow">
+        <table className="min-w-full border bg-white shadow text-sm">
           <thead className="bg-gray-100">
             <tr>
               <th className="p-2 border">N°</th>

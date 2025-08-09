@@ -9,6 +9,8 @@ const Reposiciones = () => {
   const [reposiciones, setReposiciones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState("todos");
+  const itemsPorPagina = 4;
+  const [paginaActual, setPaginaActual] = useState(1);
 
   const obtenerReposiciones = async () => {
     try {
@@ -47,6 +49,18 @@ const Reposiciones = () => {
       ? reposiciones
       : reposiciones.filter((r) => r.estado === filtro);
 
+  // Paginación
+  const totalPaginas = Math.ceil(reposicionesFiltradas.length / itemsPorPagina);
+  const indicePrimerItem = (paginaActual - 1) * itemsPorPagina;
+  const indiceUltimoItem = indicePrimerItem + itemsPorPagina;
+  const reposicionesActuales = reposicionesFiltradas.slice(indicePrimerItem, indiceUltimoItem);
+
+  const cambiarPagina = (nuevaPagina) => {
+    if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+      setPaginaActual(nuevaPagina);
+    }
+  };
+
   if (loading) return <p>Cargando reposiciones...</p>;
 
   return (
@@ -83,9 +97,9 @@ const Reposiciones = () => {
             </tr>
           </thead>
           <tbody>
-            {reposicionesFiltradas.map((r, index) => (
+            {reposicionesActuales.map((r, index) => (
               <tr key={r.id} className="border-b hover:bg-gray-50">
-                <td className="px-3 py-2">{index + 1}</td>
+                <td className="px-3 py-2">{indicePrimerItem + index + 1}</td>
                 <td className="px-3 py-2">{r.producto}</td>
                 <td className="px-3 py-2">{r.proveedor || "—"}</td>
                 <td className="px-3 py-2">{r.cantidad_solicitada}</td>
@@ -134,6 +148,39 @@ const Reposiciones = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Paginación */}
+      {totalPaginas > 1 && (
+        <div className="flex justify-center items-center mt-4 gap-2">
+          <button
+            onClick={() => cambiarPagina(paginaActual - 1)}
+            disabled={paginaActual === 1}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Anterior
+          </button>
+          {[...Array(totalPaginas)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => cambiarPagina(i + 1)}
+              className={`px-3 py-1 rounded ${
+                paginaActual === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => cambiarPagina(paginaActual + 1)}
+            disabled={paginaActual === totalPaginas}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
     </div>
   );
 };

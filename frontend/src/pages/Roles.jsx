@@ -21,7 +21,7 @@ const Roles = () => {
 
   const [roles, setRoles] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
-  const [itemsPorPagina] = useState(8);
+  const [itemsPorPagina] = useState(5);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [rolSeleccionado, setRolSeleccionado] = useState(null);
 
@@ -93,7 +93,7 @@ const Roles = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full border bg-white shadow">
+        <table className="min-w-full border bg-white shadow text-sm">
           <thead className="bg-gray-100">
             <tr>
               <th className="p-2 border">N°</th>

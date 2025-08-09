@@ -15,6 +15,7 @@ import historialRoutes from './routes/historialRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import protectedRoutes from './routes/protectedRoutes.js';
 import reposicionesRoutes from './routes/reposicionesRoutes.js';
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 
 dotenv.config();
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 // Rutas de inventario
 app.use('/api/auth', authRoutes);
 app.use('/api/protegido', protectedRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 app.use('/api/roles', rolesRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/categorias', categoriasRoutes);

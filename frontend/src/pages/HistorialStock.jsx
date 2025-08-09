@@ -44,7 +44,7 @@ const HistorialStock = () => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Historial de Stock</h1>
       <div className="overflow-x-auto max-h-[500px] overflow-y-auto border rounded-lg">
-        <table className="min-w-full bg-white shadow-md rounded">
+        <table className="min-w-full bg-white shadow-md rounded text-sm">
           <thead className="bg-gray-200 text-gray-700 sticky top-0 z-10">
             <tr>
               <th className="py-2 px-4 text-left">N°</th>
@@ -101,21 +101,31 @@ const HistorialStock = () => {
       </div>
 
       {totalPaginas > 1 && (
-        <div className="flex justify-center mt-4 gap-4">
+        <div className="flex justify-center items-center mt-4 gap-2">
           <button
             onClick={paginaAnterior}
             disabled={paginaActual === 1}
-            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
           >
             Anterior
           </button>
-          <span className="text-sm font-medium">
-            Página {paginaActual} de {totalPaginas}
-          </span>
+          {[...Array(totalPaginas)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setPaginaActual(i + 1)}
+              className={`px-3 py-1 rounded ${
+                paginaActual === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
           <button
             onClick={siguientePagina}
             disabled={paginaActual === totalPaginas}
-            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
           >
             Siguiente
           </button>

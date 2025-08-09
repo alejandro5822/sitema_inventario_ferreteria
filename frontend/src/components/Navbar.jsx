@@ -16,7 +16,7 @@ export default function Navbar() {
       <h1 className="text-lg font-bold text-gray-700">Panel de Control</h1>
       <div className="flex items-center gap-4">
         <span className="text-gray-600">
-         <text className="font-bold">Bienvenido: </text> 
+         <p className="font-bold">Bienvenido: </p>
          {usuario?.nombre ?? "Usuario"} ({usuario?.rol_nombre ?? "Invitado"})
         </span>
         <button

@@ -10,6 +10,14 @@ const Categorias = () => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
 
+  // Paginación
+  const itemsPorPagina = 5;
+  const [paginaActual, setPaginaActual] = useState(1);
+  const totalPaginas = Math.ceil(categorias.length / itemsPorPagina);
+  const indicePrimerItem = (paginaActual - 1) * itemsPorPagina;
+  const indiceUltimoItem = indicePrimerItem + itemsPorPagina;
+  const categoriasActuales = categorias.slice(indicePrimerItem, indiceUltimoItem);
+
   const obtenerCategorias = async () => {
     try {
       const res = await fetch("http://localhost:4000/api/categorias", {
@@ -53,7 +61,6 @@ const Categorias = () => {
 
       const data = await res.json();
 
-      
       if (!res.ok) {
         alert(data.error || "Error desconocido");
         return;
@@ -62,6 +69,12 @@ const Categorias = () => {
       obtenerCategorias(); // Refrescar lista
     } catch (error) {
       console.error("Error al eliminar categoría:", error);
+    }
+  };
+
+  const cambiarPagina = (nuevaPagina) => {
+    if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+      setPaginaActual(nuevaPagina);
     }
   };
 
@@ -77,7 +90,7 @@ const Categorias = () => {
         </button>
       </div>
 
-      <table className="w-full bg-white shadow rounded">
+      <table className="w-full bg-white shadow rounded text-sm">
         <thead>
           <tr className="bg-gray-200 text-left">
             <th className="p-3">ID</th>
@@ -87,9 +100,9 @@ const Categorias = () => {
           </tr>
         </thead>
         <tbody>
-          {categorias.map((cat) => (
+          {categoriasActuales.map((cat, index) => (
             <tr key={cat.id} className="border-t hover:bg-gray-50">
-              <td className="p-3">{cat.id}</td>
+              <td className="p-3">{indicePrimerItem + index + 1}</td>
               <td className="p-3">{cat.nombre}</td>
               <td className="p-3">{cat.descripcion || "Sin descripción"}</td>
               <td className="p-3 space-x-2">
@@ -99,7 +112,6 @@ const Categorias = () => {
                 >
                   Editar
                 </button>
-                {/* Más acciones como eliminar o desactivar se agregarán luego */}
                 <button
                   className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded" 
                   onClick={() => manejarEliminar(cat.id)}
@@ -111,6 +123,39 @@ const Categorias = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Paginación */}
+      {totalPaginas > 1 && (
+        <div className="flex justify-center items-center mt-4 gap-2">
+          <button
+            onClick={() => cambiarPagina(paginaActual - 1)}
+            disabled={paginaActual === 1}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Anterior
+          </button>
+          {[...Array(totalPaginas)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => cambiarPagina(i + 1)}
+              className={`px-3 py-1 rounded ${
+                paginaActual === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => cambiarPagina(paginaActual + 1)}
+            disabled={paginaActual === totalPaginas}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
 
       {mostrarModal && (
         <CategoriaFormModal

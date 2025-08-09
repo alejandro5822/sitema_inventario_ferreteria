@@ -9,6 +9,8 @@ const Movimientos = () => {
   const [movimientos, setMovimientos] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [movimientoSeleccionado, setMovimientoSeleccionado] = useState(null);
+  const itemsPorPagina = 6;
+  const [paginaActual, setPaginaActual] = useState(1);
 
   const obtenerMovimientos = async () => {
     try {
@@ -66,6 +68,18 @@ const Movimientos = () => {
     }
   };
 
+  // Paginación
+  const totalPaginas = Math.ceil(movimientos.length / itemsPorPagina);
+  const indicePrimerItem = (paginaActual - 1) * itemsPorPagina;
+  const indiceUltimoItem = indicePrimerItem + itemsPorPagina;
+  const movimientosActuales = movimientos.slice(indicePrimerItem, indiceUltimoItem);
+
+  const cambiarPagina = (nuevaPagina) => {
+    if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+      setPaginaActual(nuevaPagina);
+    }
+  };
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
@@ -78,7 +92,7 @@ const Movimientos = () => {
         </button>
       </div>
 
-      <table className="w-full bg-white shadow rounded">
+      <table className="w-full bg-white shadow rounded text-sm">
         <thead>
           <tr className="bg-gray-200 text-center">
             <th className="p-3">N°</th>
@@ -93,9 +107,9 @@ const Movimientos = () => {
           </tr>
         </thead>
         <tbody>
-          {movimientos.map((mov, index) => (
+          {movimientosActuales.map((mov, index) => (
             <tr key={mov.id} className="border-t hover:bg-gray-100 text-center">
-              <td className="p-3">{index + 1}</td>
+              <td className="p-3">{indicePrimerItem + index + 1}</td>
               <td className="p-3">{mov.nombre_usuario}</td>
               <td className="p-3">{mov.nombre_producto}</td>
               <td className="p-3">{mov.nombre_proveedor}</td>
@@ -123,6 +137,39 @@ const Movimientos = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Paginación */}
+      {totalPaginas > 1 && (
+        <div className="flex justify-center items-center mt-4 gap-2">
+          <button
+            onClick={() => cambiarPagina(paginaActual - 1)}
+            disabled={paginaActual === 1}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Anterior
+          </button>
+          {[...Array(totalPaginas)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => cambiarPagina(i + 1)}
+              className={`px-3 py-1 rounded ${
+                paginaActual === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => cambiarPagina(paginaActual + 1)}
+            disabled={paginaActual === totalPaginas}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
 
       {mostrarModal && (
         <MovimientoFormModal

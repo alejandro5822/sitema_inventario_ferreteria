@@ -8,6 +8,14 @@ const SubCategorias = () => {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [subcategoriaSeleccionada, setSubcategoriaSeleccionada] = useState(null);
 
+  // Paginación
+  const itemsPorPagina = 7;
+  const [paginaActual, setPaginaActual] = useState(1);
+  const totalPaginas = Math.ceil(subcategorias.length / itemsPorPagina);
+  const indicePrimerItem = (paginaActual - 1) * itemsPorPagina;
+  const indiceUltimoItem = indicePrimerItem + itemsPorPagina;
+  const subcategoriasActuales = subcategorias.slice(indicePrimerItem, indiceUltimoItem);
+
   const obtenerSubcategorias = async () => {
     try {
       const res = await fetch("http://localhost:4000/api/subcategorias", {
@@ -56,6 +64,12 @@ const SubCategorias = () => {
     }
   };
 
+  const cambiarPagina = (nuevaPagina) => {
+    if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+      setPaginaActual(nuevaPagina);
+    }
+  };
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
@@ -68,19 +82,19 @@ const SubCategorias = () => {
         </button>
       </div>
 
-      <table className="w-full border text-left">
+      <table className="w-full border text-left text-sm">
         <thead>
           <tr className="bg-gray-200">
-            <th className="border px-4 py-2">ID</th>
-            <th className="border px-4 py-2">Sub Categoria</th>
+            <th className="border px-4 py-2">N°</th>
+            <th className="border px-4 py-2">Sub Categoría</th>
             <th className="border px-4 py-2">Categoría</th>
             <th className="border px-4 py-2">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {subcategorias.map((sub) => (
+          {subcategoriasActuales.map((sub, index) => (
             <tr key={sub.id} className="border-t hover:bg-gray-50">
-              <td className="border px-4 py-2">{sub.id}</td>
+              <td className="border px-4 py-2">{indicePrimerItem + index + 1}</td>
               <td className="border px-4 py-2">{sub.nombre}</td>
               <td className="border px-4 py-2">{sub.categoria_nombre}</td>
               <td className="border px-4 py-2 space-x-2">
@@ -103,6 +117,39 @@ const SubCategorias = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Paginación */}
+      {totalPaginas > 1 && (
+        <div className="flex justify-center items-center mt-4 gap-2">
+          <button
+            onClick={() => cambiarPagina(paginaActual - 1)}
+            disabled={paginaActual === 1}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Anterior
+          </button>
+          {[...Array(totalPaginas)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => cambiarPagina(i + 1)}
+              className={`px-3 py-1 rounded ${
+                paginaActual === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => cambiarPagina(paginaActual + 1)}
+            disabled={paginaActual === totalPaginas}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
 
       {modalAbierto && (
         <ModalSubcategoria

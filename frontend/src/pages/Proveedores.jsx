@@ -9,6 +9,14 @@ const Proveedores = () => {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [proveedorActual, setProveedorActual] = useState(null);
 
+  // Paginación
+  const itemsPorPagina = 5;
+  const [paginaActual, setPaginaActual] = useState(1);
+  const totalPaginas = Math.ceil(proveedores.length / itemsPorPagina);
+  const indicePrimerItem = (paginaActual - 1) * itemsPorPagina;
+  const indiceUltimoItem = indicePrimerItem + itemsPorPagina;
+  const proveedoresActuales = proveedores.slice(indicePrimerItem, indiceUltimoItem);
+
   const obtenerProveedores = async () => {
     try {
       const { data } = await axios.get("http://localhost:4000/api/proveedores");
@@ -61,6 +69,12 @@ const Proveedores = () => {
     }
   }
 
+  const cambiarPagina = (nuevaPagina) => {
+    if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+      setPaginaActual(nuevaPagina);
+    }
+  };
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
@@ -74,7 +88,7 @@ const Proveedores = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 text-left">
+        <table className="min-w-full bg-white border border-gray-200 text-left text-sm">
           <thead>
             <tr className="bg-gray-100">
               <th className="px-4 py-2 border">#</th>
@@ -87,9 +101,9 @@ const Proveedores = () => {
             </tr>
           </thead>
           <tbody>
-            {proveedores.map((proveedor, index) => (
+            {proveedoresActuales.map((proveedor, index) => (
               <tr key={proveedor.id}>
-                <td className="border px-4 py-2">{index + 1}</td>
+                <td className="border px-4 py-2">{indicePrimerItem + index + 1}</td>
                 <td className="border px-4 py-2">{proveedor.nombre}</td>
                 <td className="border px-4 py-2">{proveedor.correo}</td>
                 <td className="border px-4 py-2">{proveedor.telefono}</td>
@@ -114,6 +128,39 @@ const Proveedores = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Paginación */}
+      {totalPaginas > 1 && (
+        <div className="flex justify-center items-center mt-4 gap-2">
+          <button
+            onClick={() => cambiarPagina(paginaActual - 1)}
+            disabled={paginaActual === 1}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Anterior
+          </button>
+          {[...Array(totalPaginas)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => cambiarPagina(i + 1)}
+              className={`px-3 py-1 rounded ${
+                paginaActual === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => cambiarPagina(paginaActual + 1)}
+            disabled={paginaActual === totalPaginas}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
 
       {modalAbierto && (
         <ModalProveedor proveedor={proveedorActual} cerrarModal={cerrarModal} />

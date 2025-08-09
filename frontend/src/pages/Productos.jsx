@@ -25,6 +25,9 @@ const Productos = () => {
   const [cantidadSolicitada, setCantidadSolicitada] = useState("");
   const [precioUnitario, setPrecioUnitario] = useState("");
 
+  const itemsPorPagina = 4;
+  const [paginaActual, setPaginaActual] = useState(1);
+
   const obtenerProductos = async () => {
     try {
       const res = await axios.get("http://localhost:4000/api/productos", {
@@ -112,6 +115,18 @@ const Productos = () => {
     setMostrarModalReposicion(true);
   };
 
+  // Paginación
+  const totalPaginas = Math.ceil(productos.length / itemsPorPagina);
+  const indicePrimerItem = (paginaActual - 1) * itemsPorPagina;
+  const indiceUltimoItem = indicePrimerItem + itemsPorPagina;
+  const productosActuales = productos.slice(indicePrimerItem, indiceUltimoItem);
+
+  const cambiarPagina = (nuevaPagina) => {
+    if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+      setPaginaActual(nuevaPagina);
+    }
+  };
+
   if (loading) return <p>Cargando productos...</p>;
 
   return (
@@ -144,9 +159,9 @@ const Productos = () => {
             </tr>
           </thead>
           <tbody>
-            {productos.map((producto, index) => (
+            {productosActuales.map((producto, index) => (
               <tr key={producto.id} className="border-b hover:bg-gray-50">
-                <td className="px-3 py-2">{index + 1}</td>
+                <td className="px-3 py-2">{indicePrimerItem + index + 1}</td>
                 <td className="px-3 py-2">{producto.nombre}</td>
                 <td className="px-3 py-2">Bs {producto.precio}</td>
                 <td className="px-3 py-2">Bs {producto.precio_compra}</td>
@@ -215,6 +230,39 @@ const Productos = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Paginación */}
+      {totalPaginas > 1 && (
+        <div className="flex justify-center items-center mt-4 gap-2">
+          <button
+            onClick={() => cambiarPagina(paginaActual - 1)}
+            disabled={paginaActual === 1}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Anterior
+          </button>
+          {[...Array(totalPaginas)].map((_, i) => (
+            <button
+              key={i}
+              onClick={() => cambiarPagina(i + 1)}
+              className={`px-3 py-1 rounded ${
+                paginaActual === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => cambiarPagina(paginaActual + 1)}
+            disabled={paginaActual === totalPaginas}
+            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
 
       {mostrarModalReposicion && productoReposicion && (
         <ReposicionForm
