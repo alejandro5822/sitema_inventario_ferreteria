@@ -151,7 +151,7 @@ export const actualizarEstado = async (req, res) => {
         [
           reposicion.producto_id,
           reposicion.cantidad_solicitada,
-          `Reposición #${reposicion.id}`,
+          `Reposicion`,
           reposicion.usuario_id,
           reposicion.proveedor_id,
         ]
@@ -165,7 +165,7 @@ export const actualizarEstado = async (req, res) => {
           reposicion.producto_id,
           stockAnterior,
           stockNuevo,
-          `Reposición #${reposicion.id}`,
+          `Reposicion`,
           reposicion.usuario_id,
         ]
       );

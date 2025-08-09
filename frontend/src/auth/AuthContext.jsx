@@ -3,8 +3,11 @@ import { createContext, useContext, useState } from 'react';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [usuario, setUsuario] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [token, setToken] = useState(() => localStorage.getItem("token") || null);
+  const [usuario, setUsuario] = useState(() => {
+    const usuarioGuardado = localStorage.getItem("usuario");
+    return usuarioGuardado ? JSON.parse(usuarioGuardado) : null;
+  });
 
   const login = (data) => {
     setUsuario(data.usuario);
@@ -14,9 +17,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    setToken(null);
     setUsuario(null);
-    setToken('');
-    localStorage.removeItem('token');
   };
 
   return (

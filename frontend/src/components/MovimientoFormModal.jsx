@@ -12,7 +12,7 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
     usuario_id: usuario.id,
     producto_id: "",
     tipo_movimiento: "entrada",
-    descripcion: "Reposición",
+    descripcion: "Reposicion",
     cantidad: 1,
   });
 
@@ -26,7 +26,7 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
         usuario_id: movimiento.usuario_id,
         producto_id: movimiento.producto_id || "",
         tipo_movimiento: movimiento.tipo_movimiento || "entrada",
-        descripcion: movimiento.descripcion || "Reposición",
+        descripcion: movimiento.descripcion || "Reposicion",
         cantidad: movimiento.cantidad || 1,
       });
       setProveedorId(movimiento.proveedor_id || "");
@@ -162,8 +162,8 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
             required
           >
             <option value="Venta">Venta</option>
-            <option value="Reposición">Reposición</option>
-            <option value="Devolución">Devolución</option>
+            <option value="Reposicion">Reposicion</option>
+            <option value="Devolucion">Devolucion</option>
           </select>
 
           <input
