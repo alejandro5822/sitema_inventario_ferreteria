@@ -7,7 +7,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 const Categorias = () => {
-  const { token } = useAuth();
+  const { token, usuario} = useAuth();
   const [categorias, setCategorias] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
@@ -196,12 +196,13 @@ const Categorias = () => {
                   >
                     Editar
                   </button>
+                  {usuario.rol_nombre === "Administrador" && (
                   <button
                     className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
                     onClick={() => manejarEliminar(cat.id)}
                   >
                     Eliminar
-                  </button>
+                  </button>)}
                 </td>
               </tr>
             ))}
@@ -229,12 +230,14 @@ const Categorias = () => {
               >
                 Editar
               </button>
-              <button
-                className="bg-red-600 hover:bg-red-700 text-white px-2 py-2 rounded w-full"
-                onClick={() => manejarEliminar(cat.id)}
-              >
-                Eliminar
-              </button>
+              {usuario.rol_nombre === "Administrador" && (
+                <button
+                  className="bg-red-600 hover:bg-red-700 text-white px-2 py-2 rounded w-full"
+                  onClick={() => manejarEliminar(cat.id)}
+                >
+                  Eliminar
+                </button>
+              )}
             </div>
           </div>
         ))}

@@ -6,7 +6,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 const Proveedores = () => {
-  const { token } = useAuth();
+  const { token, usuario } = useAuth();
   const [proveedores, setProveedores] = useState([]);
   const [modalAbierto, setModalAbierto] = useState(false);
   const [proveedorActual, setProveedorActual] = useState(null);
@@ -209,12 +209,14 @@ const Proveedores = () => {
                   >
                     Editar
                   </button>
-                  <button
-                    className="px-2 py-2 bg-red-600 hover:bg-red-700 text-white rounded w-full sm:w-auto"
-                    onClick={() => eliminarProveedor(proveedor.id)}
-                  >
-                    Eliminar
-                  </button>
+                  {usuario.rol_nombre === "Administrador" && (
+                    <button
+                      className="px-2 py-2 bg-red-600 hover:bg-red-700 text-white rounded w-full sm:w-auto"
+                      onClick={() => eliminarProveedor(proveedor.id)}
+                    >
+                      Eliminar
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -242,12 +244,14 @@ const Proveedores = () => {
               >
                 Editar
               </button>
-              <button
-                className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded w-full"
-                onClick={() => eliminarProveedor(proveedor.id)}
-              >
-                Eliminar
-              </button>
+              {usuario.rol_nombre === "Administrador" && (
+                <button
+                  className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded w-full"
+                  onClick={() => eliminarProveedor(proveedor.id)}
+                >
+                  Eliminar
+                </button>
+              )}
             </div>
           </div>
         ))}

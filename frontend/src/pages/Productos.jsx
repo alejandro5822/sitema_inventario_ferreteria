@@ -229,7 +229,8 @@ const Productos = () => {
     saveAs(data, "productos.xlsx");
   };
 
-  if (loading) return <p className="dark:text-gray-100">Cargando productos...</p>;
+  if (loading)
+    return <p className="dark:text-gray-100">Cargando productos...</p>;
 
   return (
     <div className="p-2 sm:p-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
@@ -337,7 +338,10 @@ const Productos = () => {
           </thead>
           <tbody>
             {productos.map((producto, index) => (
-              <tr key={producto.id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-700">
+              <tr
+                key={producto.id}
+                className="border-b hover:bg-gray-50 dark:hover:bg-gray-700"
+              >
                 <td className="px-3 py-2">
                   {(paginaActual - 1) * itemsPorPagina + index + 1}
                 </td>
@@ -396,12 +400,14 @@ const Productos = () => {
                   >
                     {producto.estado ? <FaToggleOn /> : <FaToggleOff />}
                   </button>
-                  <button
-                    onClick={() => handleEliminar(producto.id)}
-                    className="bg-red-600 text-white px-3 py-3 rounded hover:bg-red-700"
-                  >
-                    <FaTrash />
-                  </button>
+                  {usuario.rol_nombre === "Administrador" && (
+                    <button
+                      onClick={() => handleEliminar(producto.id)}
+                      className="bg-red-600 text-white px-3 py-3 rounded hover:bg-red-700"
+                    >
+                      <FaTrash />
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -412,10 +418,14 @@ const Productos = () => {
       {/* Cards para móviles */}
       <div className="sm:hidden flex flex-col gap-4">
         {productos.map((producto, index) => (
-          <div key={producto.id} className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded border p-3">
+          <div
+            key={producto.id}
+            className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded border p-3"
+          >
             <div className="flex justify-between items-center mb-2">
               <span className="font-bold text-blue-700 dark:text-blue-300">
-                {(paginaActual - 1) * itemsPorPagina + index + 1}. {producto.nombre}
+                {(paginaActual - 1) * itemsPorPagina + index + 1}.{" "}
+                {producto.nombre}
               </span>
               <span className="text-xs text-gray-500 dark:text-gray-400">
                 {producto.estado ? (
@@ -425,12 +435,29 @@ const Productos = () => {
                 )}
               </span>
             </div>
-            <div className="text-sm mb-1"><span className="font-semibold">Precio Venta:</span> Bs {producto.precio}</div>
-            <div className="text-sm mb-1"><span className="font-semibold">Precio Compra:</span> Bs {producto.precio_compra}</div>
-            <div className="text-sm mb-1"><span className="font-semibold">Stock:</span> {producto.stock}</div>
-            <div className="text-sm mb-1"><span className="font-semibold">Descripción:</span> {producto.descripcion}</div>
-            <div className="text-sm mb-1"><span className="font-semibold">Categoría:</span> {producto.categoria_nombre}</div>
-            <div className="text-sm mb-1"><span className="font-semibold">Proveedor:</span> {producto.proveedor_nombre}</div>
+            <div className="text-sm mb-1">
+              <span className="font-semibold">Precio Venta:</span> Bs{" "}
+              {producto.precio}
+            </div>
+            <div className="text-sm mb-1">
+              <span className="font-semibold">Precio Compra:</span> Bs{" "}
+              {producto.precio_compra}
+            </div>
+            <div className="text-sm mb-1">
+              <span className="font-semibold">Stock:</span> {producto.stock}
+            </div>
+            <div className="text-sm mb-1">
+              <span className="font-semibold">Descripción:</span>{" "}
+              {producto.descripcion}
+            </div>
+            <div className="text-sm mb-1">
+              <span className="font-semibold">Categoría:</span>{" "}
+              {producto.categoria_nombre}
+            </div>
+            <div className="text-sm mb-1">
+              <span className="font-semibold">Proveedor:</span>{" "}
+              {producto.proveedor_nombre}
+            </div>
             <div className="text-sm mb-1">
               <span className="font-semibold">Imagen:</span>{" "}
               {producto.imagen_url ? (
@@ -473,12 +500,14 @@ const Productos = () => {
               >
                 {producto.estado ? <FaToggleOn /> : <FaToggleOff />}
               </button>
-              <button
-                onClick={() => handleEliminar(producto.id)}
-                className="bg-red-600 text-white px-2 py-2 rounded hover:bg-red-700 w-full"
-              >
-                <FaTrash />
-              </button>
+              {usuario.rol_nombre === "Administrador" && (
+                <button
+                  onClick={() => handleEliminar(producto.id)}
+                  className="bg-red-600 text-white px-2 py-2 rounded hover:bg-red-700 w-full"
+                >
+                  <FaTrash />
+                </button>
+              )}
             </div>
           </div>
         ))}
