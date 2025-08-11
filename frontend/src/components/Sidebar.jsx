@@ -1,70 +1,82 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  FaHome,
-  FaBoxes,
-  FaTags,
-  FaList,
-  FaTruck,
-  FaExchangeAlt,
-  FaChartLine,
-  FaUsers,
-  FaUserShield,
-  FaCog,
-  FaChevronDown,
-  FaChevronUp,
-  FaShoppingCart,
-} from "react-icons/fa";
+  Home,
+  Boxes,
+  RefreshCw,
+  LineChart,
+  Users,
+  Cog,
+  ChevronDown,
+  ChevronUp,
+  ShoppingCart,
+  ChevronLeft,
+} from "lucide-react";
+import { useState } from "react";
 
-const Sidebar = () => {
-  const [openMenu, setOpenMenu] = useState("null");
+const Sidebar = ({ open, setOpen }) => {
+  const [openMenu, setOpenMenu] = useState(null);
 
   const toggleMenu = (menu) => {
     setOpenMenu(openMenu === menu ? null : menu);
   };
 
   return (
-    <aside className="w-56 h-screen bg-gray-800 text-white p-4">
+    <aside
+      className={`
+        fixed sm:static top-0 left-0 z-40
+        bg-gray-800 text-white p-4 h-full w-64
+        transition-transform duration-300
+        ${open ? "translate-x-0" : "-translate-x-full"}
+        sm:translate-x-0 sm:w-56 sm:h-screen
+      `}
+      aria-label="Menú lateral"
+    >
+      <button
+        className="sm:hidden absolute top-4 right-4 text-gray-300"
+        onClick={() => setOpen(false)}
+        aria-label="Cerrar menú"
+      >
+        <ChevronLeft size={28} />
+      </button>
       <h2 className="text-2xl font-bold mb-6">InventarioApp</h2>
 
-      {/* INICIO */}
       <Link
         to="/"
         className="flex items-center gap-2 mb-4 hover:text-yellow-400"
+        onClick={() => setOpen(false)}
       >
-        <FaHome /> Inicio
+        <Home size={20} /> Inicio
       </Link>
 
-      {/* INVENTARIO */}
       <div>
         <button
           onClick={() => toggleMenu("inventario")}
           className="flex items-center justify-between w-full mb-2 hover:text-yellow-400"
         >
           <span className="flex items-center gap-2">
-            <FaBoxes /> Inventario
+            <Boxes size={20} /> Inventario
           </span>
-          {openMenu === "inventario" ? <FaChevronUp /> : <FaChevronDown />}
+          {openMenu === "inventario" ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </button>
         {openMenu === "inventario" && (
           <ul className="ml-6 space-y-2 pt-2">
             <li>
-              <Link to="/productos" className="hover:text-yellow-400">
+              <Link to="/productos" className="hover:text-yellow-400" onClick={() => setOpen(false)}>
                 Productos
               </Link>
             </li>
             <li>
-              <Link to="/categorias" className="hover:text-yellow-400">
+              <Link to="/categorias" className="hover:text-yellow-400" onClick={() => setOpen(false)}>
                 Categorías
               </Link>
             </li>
             <li>
-              <Link to="/subcategorias" className="hover:text-yellow-400">
+              <Link to="/subcategorias" className="hover:text-yellow-400" onClick={() => setOpen(false)}>
                 Subcategorías
               </Link>
             </li>
             <li>
-              <Link to="/proveedores" className="hover:text-yellow-400">
+              <Link to="/proveedores" className="hover:text-yellow-400" onClick={() => setOpen(false)}>
                 Proveedores
               </Link>
             </li>
@@ -72,21 +84,20 @@ const Sidebar = () => {
         )}
       </div>
 
-      {/* MOVIMIENTOS */}
       <div>
         <button
           onClick={() => toggleMenu("movimientos")}
           className="flex items-center justify-between w-full mt-4 hover:text-yellow-400"
         >
           <span className="flex items-center gap-2">
-            <FaExchangeAlt /> Movimientos
+            <RefreshCw size={20} /> Movimientos
           </span>
-          {openMenu === "movimientos" ? <FaChevronUp /> : <FaChevronDown />}
+          {openMenu === "movimientos" ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </button>
         {openMenu === "movimientos" && (
           <ul className="ml-6 space-y-2 pt-2">
             <li>
-              <Link to="/movimientos" className="hover:text-yellow-400">
+              <Link to="/movimientos" className="hover:text-yellow-400" onClick={() => setOpen(false)}>
                 Registro
               </Link>
             </li>
@@ -94,21 +105,20 @@ const Sidebar = () => {
         )}
       </div>
 
-      {/* HISTORIAL */}
       <div>
         <button
           onClick={() => toggleMenu("historial")}
           className="flex items-center justify-between w-full mt-4 hover:text-yellow-400"
         >
           <span className="flex items-center gap-2">
-            <FaChartLine /> Historial
+            <LineChart size={20} /> Historial
           </span>
-          {openMenu === "historial" ? <FaChevronUp /> : <FaChevronDown />}
+          {openMenu === "historial" ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </button>
         {openMenu === "historial" && (
           <ul className="ml-6 space-y-2 pt-2">
             <li>
-              <Link to="/historial-stock" className="hover:text-yellow-400">
+              <Link to="/historial-stock" className="hover:text-yellow-400" onClick={() => setOpen(false)}>
                 Historial de Stock
               </Link>
             </li>
@@ -116,26 +126,25 @@ const Sidebar = () => {
         )}
       </div>
 
-      {/* USUARIOS */}
       <div>
         <button
           onClick={() => toggleMenu("usuarios")}
           className="flex items-center justify-between w-full mt-4 hover:text-yellow-400"
         >
           <span className="flex items-center gap-2">
-            <FaUsers /> Usuarios
+            <Users size={20} /> Usuarios
           </span>
-          {openMenu === "usuarios" ? <FaChevronUp /> : <FaChevronDown />}
+          {openMenu === "usuarios" ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </button>
         {openMenu === "usuarios" && (
           <ul className="ml-6 space-y-2 pt-2">
             <li>
-              <Link to="/usuarios" className="hover:text-yellow-400">
+              <Link to="/usuarios" className="hover:text-yellow-400" onClick={() => setOpen(false)}>
                 Lista de Usuarios
               </Link>
             </li>
             <li>
-              <Link to="/roles" className="hover:text-yellow-400">
+              <Link to="/roles" className="hover:text-yellow-400" onClick={() => setOpen(false)}>
                 Roles
               </Link>
             </li>
@@ -143,20 +152,20 @@ const Sidebar = () => {
         )}
       </div>
 
-      {/* CONFIGURACIÓN */}
       <Link
         to="/reposiciones"
         className="flex items-center gap-2 mt-6 hover:text-yellow-400"
+        onClick={() => setOpen(false)}
       >
-        <FaShoppingCart /> Reposiciones
+        <ShoppingCart size={20} /> Reposiciones
       </Link>
 
-      {/* CONFIGURACIÓN */}
       <Link
         to="/configuracion"
         className="flex items-center gap-2 mt-6 hover:text-yellow-400"
+        onClick={() => setOpen(false)}
       >
-        <FaCog /> Configuración
+        <Cog size={20} /> Configuración
       </Link>
     </aside>
   );

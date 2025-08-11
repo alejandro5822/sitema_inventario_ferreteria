@@ -174,3 +174,80 @@ export const eliminarProducto = async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar producto' });
   }
 };
+
+export const buscarProductos = async (req, res) => {
+  const {
+    tipo = "nombre",
+    valor = "",
+    pagina = 1,
+    limite = 3
+  } = req.query;
+
+  // Construir filtro dinámico
+  let where = "";
+  let params = [];
+  if (valor) {
+    switch (tipo) {
+      case "nombre":
+        where = "WHERE LOWER(p.nombre) LIKE $1";
+        params = [`%${valor.toLowerCase()}%`];
+        break;
+      case "categoria":
+        where = "WHERE LOWER(c.nombre) LIKE $1";
+        params = [`%${valor.toLowerCase()}%`];
+        break;
+      case "proveedor":
+        where = "WHERE LOWER(pr.nombre) LIKE $1";
+        params = [`%${valor.toLowerCase()}%`];
+        break;
+      case "estado":
+        where = "WHERE p.estado = $1";
+        params = [valor === "activo"];
+        break;
+      default:
+        where = "";
+        params = [];
+    }
+  }
+
+  // Paginación
+  const offset = (parseInt(pagina) - 1) * parseInt(limite);
+
+  try {
+    // Total filtrados
+    const totalQuery = `
+      SELECT COUNT(*) FROM productos p
+      LEFT JOIN categorias c ON p.categoria_id = c.id
+      LEFT JOIN proveedores pr ON p.proveedor_id = pr.id
+      ${where}
+    `;
+    const totalRes = await pool.query(totalQuery, params);
+    const total = parseInt(totalRes.rows[0].count);
+
+    // Datos paginados
+    const dataQuery = `
+      SELECT p.*, 
+             c.nombre AS categoria_nombre,
+             pr.nombre AS proveedor_nombre
+      FROM productos p
+      LEFT JOIN categorias c ON p.categoria_id = c.id
+      LEFT JOIN proveedores pr ON p.proveedor_id = pr.id
+      ${where}
+      ORDER BY p.id DESC
+      LIMIT $${params.length + 1} OFFSET $${params.length + 2}
+    `;
+    const dataParams = [...params, parseInt(limite), offset];
+    const dataRes = await pool.query(dataQuery, dataParams);
+
+    res.json({
+      productos: dataRes.rows,
+      total,
+      pagina: parseInt(pagina),
+      limite: parseInt(limite),
+      totalPaginas: Math.ceil(total / parseInt(limite))
+    });
+  } catch (error) {
+    console.error("Error en búsqueda de productos:", error);
+    res.status(500).json({ error: "Error al buscar productos" });
+  }
+};

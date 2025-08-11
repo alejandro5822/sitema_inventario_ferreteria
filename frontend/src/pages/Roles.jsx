@@ -82,17 +82,18 @@ const Roles = () => {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Roles</h2>
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
+        <h2 className="text-2xl font-semibold text-center sm:text-left">Roles</h2>
         <button
           onClick={abrirModalNuevo}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full sm:w-auto"
         >
           + Nuevo Rol
         </button>
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Tabla para pantallas medianas y grandes */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="min-w-full border bg-white shadow text-sm">
           <thead className="bg-gray-100">
             <tr>
@@ -128,19 +129,44 @@ const Roles = () => {
             ))}
           </tbody>
         </table>
-
         {roles.length === 0 && (
           <p className="text-gray-500 mt-4">No hay roles registrados.</p>
         )}
+      </div>
 
-        {mostrarModal && (
-          <RolFormModal
-            rol={rolSeleccionado}
-            cerrar={() => {
-              setMostrarModal(false);
-              obtenerRoles();
-            }}
-          />
+      {/* Cards para móviles */}
+      <div className="sm:hidden flex flex-col gap-4">
+        {itemsActuales.map((rol, index) => (
+          <div key={rol.id} className="bg-white shadow rounded border p-3">
+            <div className="flex justify-between items-center mb-2">
+              <span className="font-bold text-blue-700">
+                {indicePrimerItem + index + 1}. {rol.nombre}
+              </span>
+              <span className="text-xs text-gray-500">
+                {new Date(rol.fecha_creacion).toLocaleDateString()}
+              </span>
+            </div>
+            <div className="text-sm mb-1">
+              <span className="font-semibold">Descripción:</span> {rol.descripcion || "—"}
+            </div>
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={() => abrirModalEditar(rol)}
+                className="text-white bg-yellow-500 hover:bg-yellow-600 px-2 py-2 rounded w-full"
+              >
+                Editar
+              </button>
+              <button
+                onClick={() => eliminarRol(rol.id)}
+                className="text-white bg-red-500 hover:bg-red-600 px-2 py-2 rounded w-full"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        ))}
+        {roles.length === 0 && (
+          <p className="text-gray-500 mt-4">No hay roles registrados.</p>
         )}
       </div>
 
@@ -165,6 +191,16 @@ const Roles = () => {
             Siguiente
           </button>
         </div>
+      )}
+
+      {mostrarModal && (
+        <RolFormModal
+          rol={rolSeleccionado}
+          cerrar={() => {
+            setMostrarModal(false);
+            obtenerRoles();
+          }}
+        />
       )}
     </div>
   );

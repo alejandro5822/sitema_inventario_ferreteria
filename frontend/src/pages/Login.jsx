@@ -27,35 +27,48 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow w-96">
-        <h2 className="text-2xl font-bold mb-4 text-center">Iniciar Sesión</h2>
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center px-4"
+      style={{ backgroundImage: "url('/fondo-login.jpg')" }}
+    >
+      <div className="bg-white bg-opacity-90 p-8 rounded-2xl shadow-lg w-full max-w-md">
+        
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
+          <img src="/logo.png" alt="Logo" className="w-20 h-20" />
+        </div>
 
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
+          Iniciar Sesión
+        </h2>
 
-        <input
-          type="email"
-          placeholder="Correo electrónico"
-          className="w-full mb-3 p-2 border rounded"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          className="w-full mb-4 p-2 border rounded"
-          value={contrasena}
-          onChange={(e) => setContrasena(e.target.value)}
-          required
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700"
-        >
-          Ingresar
-        </button>
-      </form>
+        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Correo electrónico"
+            className="w-full mb-3 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={contrasena}
+            onChange={(e) => setContrasena(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white w-full py-3 rounded-lg transition duration-300 font-semibold"
+          >
+            Ingresar
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

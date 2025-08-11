@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
@@ -8,6 +9,18 @@ export const AuthProvider = ({ children }) => {
     const usuarioGuardado = localStorage.getItem("usuario");
     return usuarioGuardado ? JSON.parse(usuarioGuardado) : null;
   });
+
+  useEffect(() => {
+    if (token) {
+      axios.get("http://localhost:4000/api/auth/verificar", {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .catch(() => {
+        logout();
+        window.location.href = "/login";
+      });
+    }
+  }, [token]);
 
   const login = (data) => {
     setUsuario(data.usuario);
@@ -23,8 +36,18 @@ export const AuthProvider = ({ children }) => {
     setUsuario(null);
   };
 
+  const handleAuthError = (error) => {
+    if (
+      error?.response?.status === 401 ||
+      (error?.response?.data?.error && error.response.data.error.includes("jwt expired"))
+    ) {
+      logout();
+      window.location.href = "/login";
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ usuario, token, login, logout }}>
+    <AuthContext.Provider value={{ usuario, token, login, logout, handleAuthError }}>
       {children}
     </AuthContext.Provider>
   );

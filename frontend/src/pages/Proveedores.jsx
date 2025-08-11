@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../auth/useAuth";
 import axios from "axios";
 import ModalProveedor from "../components/ModalProveedor";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const Proveedores = () => {
   const { token } = useAuth();
@@ -9,13 +11,34 @@ const Proveedores = () => {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [proveedorActual, setProveedorActual] = useState(null);
 
+  // Busqueda
+  const [tipoBusqueda, setTipoBusqueda] = useState("nombre");
+  const [busqueda, setBusqueda] = useState("");
+  const [busquedaTemp, setBusquedaTemp] = useState("");
+
   // Paginación
   const itemsPorPagina = 5;
   const [paginaActual, setPaginaActual] = useState(1);
-  const totalPaginas = Math.ceil(proveedores.length / itemsPorPagina);
+
+  // Filtrado por nombre o correo
+  const proveedoresFiltrados = proveedores.filter((prov) => {
+    if (!busqueda) return true;
+    if (tipoBusqueda === "nombre") {
+      return prov.nombre.toLowerCase().includes(busqueda.toLowerCase());
+    }
+    if (tipoBusqueda === "correo") {
+      return prov.correo.toLowerCase().includes(busqueda.toLowerCase());
+    }
+    return true;
+  });
+
+  const totalPaginas = Math.ceil(proveedoresFiltrados.length / itemsPorPagina);
   const indicePrimerItem = (paginaActual - 1) * itemsPorPagina;
   const indiceUltimoItem = indicePrimerItem + itemsPorPagina;
-  const proveedoresActuales = proveedores.slice(indicePrimerItem, indiceUltimoItem);
+  const proveedoresActuales = proveedoresFiltrados.slice(
+    indicePrimerItem,
+    indiceUltimoItem
+  );
 
   const obtenerProveedores = async () => {
     try {
@@ -54,9 +77,7 @@ const Proveedores = () => {
       let data = {};
       try {
         data = await res.json();
-      } catch (e) {
-        // Si la respuesta no es JSON, data queda vacío
-      }
+      } catch (e) {}
 
       if (!res.ok) {
         alert(data.error || "No se pudo eliminar.");
@@ -75,49 +96,121 @@ const Proveedores = () => {
     }
   };
 
+  // Exportar a PDF
+  const exportarPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(14);
+    doc.text("Lista de Proveedores", 15, 15);
+
+    const columns = ["#", "Nombre", "Correo", "Teléfono", "Dirección", "Fecha"];
+    const rows = proveedoresActuales.map((prov, idx) => [
+      indicePrimerItem + idx + 1,
+      prov.nombre,
+      prov.correo,
+      prov.telefono,
+      prov.direccion,
+      prov.fecha_creacion,
+    ]);
+
+    autoTable(doc, {
+      head: [columns],
+      body: rows,
+      startY: 25,
+      styles: { fontSize: 10 },
+    });
+
+    doc.save("proveedores.pdf");
+  };
+
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Lista de Proveedores</h2>
+    <div className="p-2 sm:p-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
+        <h2 className="text-xl sm:text-2xl font-bold text-center sm:text-left">
+          Lista de Proveedores
+        </h2>
         <button
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded w-full sm:w-auto"
           onClick={() => abrirModal()}
         >
           Agregar proveedor
         </button>
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Filtro y botón PDF */}
+      <div className="flex flex-col sm:flex-row gap-2 mb-4 justify-between items-center">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <select
+            value={tipoBusqueda}
+            onChange={(e) => {
+              setTipoBusqueda(e.target.value);
+              setBusqueda("");
+              setBusquedaTemp("");
+              setPaginaActual(1);
+            }}
+            className="border px-2 py-1 rounded w-full sm:w-auto"
+          >
+            <option value="nombre">Nombre</option>
+            <option value="correo">Correo</option>
+          </select>
+          <input
+            type="text"
+            value={busquedaTemp}
+            onChange={(e) => setBusquedaTemp(e.target.value)}
+            placeholder={`Buscar por ${tipoBusqueda}`}
+            className="border px-2 py-1 rounded w-full sm:w-48"
+          />
+          <button
+            onClick={() => {
+              setBusqueda(busquedaTemp);
+              setPaginaActual(1);
+            }}
+            className="bg-blue-600 text-white px-4 py-1 rounded w-full sm:w-auto"
+          >
+            Buscar
+          </button>
+        </div>
+        <button
+          onClick={exportarPDF}
+          className="bg-red-600 text-white px-4 py-1 rounded w-full sm:w-auto"
+        >
+          Exportar PDF
+        </button>
+      </div>
+
+      {/* Tabla para pantallas medianas y grandes */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 text-left text-sm">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">#</th>
-              <th className="px-4 py-2 border">Nombre</th>
-              <th className="px-4 py-2 border">Correo</th>
-              <th className="px-4 py-2 border">Teléfono</th>
-              <th className="px-4 py-2 border">Dirección</th>
-              <th className="px-4 py-2 border">Fecha de Registro</th>
-              <th className="px-4 py-2 border">Acciones</th>
+              <th className="px-2 sm:px-4 py-2 border">N°</th>
+              <th className="px-2 sm:px-4 py-2 border">Nombre</th>
+              <th className="px-2 sm:px-4 py-2 border">Correo</th>
+              <th className="px-2 sm:px-4 py-2 border">Teléfono</th>
+              <th className="px-2 sm:px-4 py-2 border">Dirección</th>
+              <th className="px-2 sm:px-4 py-2 border">Fecha de Registro</th>
+              <th className="px-2 sm:px-4 py-2 border">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {proveedoresActuales.map((proveedor, index) => (
               <tr key={proveedor.id}>
-                <td className="border px-4 py-2">{indicePrimerItem + index + 1}</td>
-                <td className="border px-4 py-2">{proveedor.nombre}</td>
-                <td className="border px-4 py-2">{proveedor.correo}</td>
-                <td className="border px-4 py-2">{proveedor.telefono}</td>
-                <td className="border px-4 py-2">{proveedor.direccion}</td>
-                <td className="border px-4 py-2">{proveedor.fecha_creacion}</td>
-                <td className="border px-4 py-3 space-x-2 flex justify-center">
+                <td className="border px-2 sm:px-4 py-2">
+                  {indicePrimerItem + index + 1}
+                </td>
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[120px] sm:max-w-none">{proveedor.nombre}</td>
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[140px] sm:max-w-none">{proveedor.correo}</td>
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[100px] sm:max-w-none">{proveedor.telefono}</td>
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[140px] sm:max-w-none">{proveedor.direccion}</td>
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[120px] sm:max-w-none">{proveedor.fecha_creacion}</td>
+                <td className="border px-2 sm:px-4 py-3 flex flex-col sm:flex-row justify-center items-center gap-2">
                   <button
-                    className="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded"
+                    className="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded w-full sm:w-auto"
                     onClick={() => abrirModal(proveedor)}
                   >
                     Editar
                   </button>
                   <button
-                    className="px-2 py-2 bg-red-600 hover:bg-red-700 text-white rounded"
+                    className="px-2 py-2 bg-red-600 hover:bg-red-700 text-white rounded w-full sm:w-auto"
                     onClick={() => eliminarProveedor(proveedor.id)}
                   >
                     Eliminar
@@ -129,9 +222,40 @@ const Proveedores = () => {
         </table>
       </div>
 
+      {/* Cards para móviles */}
+      <div className="sm:hidden flex flex-col gap-4">
+        {proveedoresActuales.map((proveedor, index) => (
+          <div key={proveedor.id} className="bg-white shadow rounded border p-3">
+            <div className="flex justify-between items-center mb-2">
+              <span className="font-bold text-blue-700">
+                {indicePrimerItem + index + 1}. {proveedor.nombre}
+              </span>
+              <span className="text-xs text-gray-500">{proveedor.fecha_creacion}</span>
+            </div>
+            <div className="text-sm mb-1"><span className="font-semibold">Correo:</span> {proveedor.correo}</div>
+            <div className="text-sm mb-1"><span className="font-semibold">Teléfono:</span> {proveedor.telefono}</div>
+            <div className="text-sm mb-1"><span className="font-semibold">Dirección:</span> {proveedor.direccion}</div>
+            <div className="flex gap-2 mt-2">
+              <button
+                className="px-2 py-1 bg-yellow-600 hover:bg-yellow-700 text-white rounded w-full"
+                onClick={() => abrirModal(proveedor)}
+              >
+                Editar
+              </button>
+              <button
+                className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded w-full"
+                onClick={() => eliminarProveedor(proveedor.id)}
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Paginación */}
       {totalPaginas > 1 && (
-        <div className="flex justify-center items-center mt-4 gap-2">
+        <div className="flex flex-wrap justify-center items-center mt-4 gap-2">
           <button
             onClick={() => cambiarPagina(paginaActual - 1)}
             disabled={paginaActual === 1}
