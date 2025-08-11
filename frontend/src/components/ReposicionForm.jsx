@@ -11,7 +11,7 @@ const ReposicionForm = ({ producto, onCerrar, onSuccess, token }) => {
   }, [producto]);
 
   const enviarReposicion = async () => {
-    if (!cantidadSolicitada || precioUnitario === '') {
+    if (!cantidadSolicitada || precioUnitario === "") {
       toast.error("Completa todos los campos");
       return;
     }
@@ -45,10 +45,10 @@ const ReposicionForm = ({ producto, onCerrar, onSuccess, token }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-      <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
+      <div className="bg-white dark:bg-gray-800 dark:text-gray-100 p-6 rounded shadow-lg w-full max-w-md relative transition-colors">
         <button
           onClick={onCerrar}
-          className="absolute top-2 right-3 text-gray-600 text-xl font-bold"
+          className="absolute top-2 right-3 text-gray-600 dark:text-gray-200 text-xl font-bold"
           disabled={cargando}
         >
           &times;
@@ -57,15 +57,13 @@ const ReposicionForm = ({ producto, onCerrar, onSuccess, token }) => {
           Solicitar reposición - {producto.nombre}
         </h2>
         <div className="mb-3">
-          <label className="block text-sm font-medium">
-            Cantidad solicitada
-          </label>
+          <label className="block text-sm font-medium">Cantidad solicitada</label>
           <input
             type="number"
             min="1"
             value={cantidadSolicitada}
             onChange={(e) => setCantidadSolicitada(e.target.value)}
-            className="border rounded w-full p-2"
+            className="border rounded w-full p-2 dark:bg-gray-700 dark:text-gray-100"
             disabled={cargando}
           />
         </div>
@@ -77,7 +75,7 @@ const ReposicionForm = ({ producto, onCerrar, onSuccess, token }) => {
             step="0.01"
             value={precioUnitario}
             onChange={(e) => setPrecioUnitario(e.target.value)}
-            className="border rounded w-full p-2"
+            className="border rounded w-full p-2 dark:bg-gray-700 dark:text-gray-100"
             disabled={cargando}
           />
         </div>
@@ -88,7 +86,7 @@ const ReposicionForm = ({ producto, onCerrar, onSuccess, token }) => {
             min="0"
             step="0.01"
             value={cantidadSolicitada * precioUnitario}
-            className="border rounded w-full p-2"
+            className="border rounded w-full p-2 dark:bg-gray-700 dark:text-gray-100"
             disabled
           />
         </div>

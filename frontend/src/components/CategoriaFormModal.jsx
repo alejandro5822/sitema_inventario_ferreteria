@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../auth/useAuth";
 import { toast } from 'react-toastify';
 
-
 const CategoriaFormModal = ({ categoria, cerrar }) => {
   const { token } = useAuth();
   const [nombre, setNombre] = useState("");
@@ -45,7 +44,7 @@ const CategoriaFormModal = ({ categoria, cerrar }) => {
       cerrar(); // Cerrar modal y refrescar
     } catch (error) {
       console.error("Error al guardar categoría:", error);
-        toast.error("Error al guardar la categoría");
+      toast.error("Error al guardar la categoría");
     }
   };
 
@@ -53,7 +52,7 @@ const CategoriaFormModal = ({ categoria, cerrar }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <form
         onSubmit={manejarSubmit}
-        className="bg-white p-6 rounded shadow-lg w-full max-w-md"
+        className="bg-white dark:bg-gray-800 dark:text-gray-100 p-6 rounded shadow-lg w-full max-w-md transition-colors"
       >
         <h2 className="text-xl font-bold mb-4">
           {esEdicion ? "Editar Categoría" : "Nueva Categoría"}
@@ -66,7 +65,7 @@ const CategoriaFormModal = ({ categoria, cerrar }) => {
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             required
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:text-gray-100"
           />
         </div>
 
@@ -75,7 +74,7 @@ const CategoriaFormModal = ({ categoria, cerrar }) => {
           <textarea
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
-            className="w-full border rounded px-3 py-2"
+            className="w-full border rounded px-3 py-2 dark:bg-gray-700 dark:text-gray-100"
           />
         </div>
 
@@ -83,7 +82,7 @@ const CategoriaFormModal = ({ categoria, cerrar }) => {
           <button
             type="button"
             onClick={cerrar}
-            className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+            className="bg-gray-400 dark:bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-500 dark:hover:bg-gray-700"
           >
             Cancelar
           </button>

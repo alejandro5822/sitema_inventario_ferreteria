@@ -50,7 +50,6 @@ const HistorialStock = () => {
       case "motivo":
         return item.motivo?.toLowerCase() === valorBusqueda.toLowerCase();
       case "fecha":
-        // Busca por fecha exacta (formato yyyy-mm-dd)
         const fechaItem = new Date(item.fecha).toISOString().slice(0, 10);
         return fechaItem === valorBusqueda;
       default:
@@ -111,8 +110,10 @@ const HistorialStock = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Historial de Stock</h1>
+    <div className="p-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <h1 className="text-2xl font-bold mb-4 dark:text-gray-100">
+        Historial de Stock
+      </h1>
 
       {/* Filtros y exportar PDF */}
       <div className="flex flex-col sm:flex-row gap-2 mb-4 justify-between items-center">
@@ -125,7 +126,7 @@ const HistorialStock = () => {
               setValorBusquedaTemp("");
               setPaginaActual(1);
             }}
-            className="border px-2 py-1 rounded w-full sm:w-auto"
+            className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
           >
             <option value="usuario">Usuario</option>
             <option value="producto">Producto</option>
@@ -139,7 +140,7 @@ const HistorialStock = () => {
                 setValorBusqueda(e.target.value);
                 setPaginaActual(1);
               }}
-              className="border px-2 py-1 rounded w-full sm:w-auto"
+              className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
             >
               <option value="">Todos</option>
               <option value="Venta">Venta</option>
@@ -154,7 +155,7 @@ const HistorialStock = () => {
                 setValorBusqueda(e.target.value);
                 setPaginaActual(1);
               }}
-              className="border px-2 py-1 rounded w-full sm:w-auto"
+              className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
             />
           ) : (
             <>
@@ -163,7 +164,7 @@ const HistorialStock = () => {
                 value={valorBusquedaTemp}
                 onChange={(e) => setValorBusquedaTemp(e.target.value)}
                 placeholder={`Buscar por ${tipoBusqueda}`}
-                className="border px-2 py-1 rounded w-full sm:w-48"
+                className="border px-2 py-1 rounded w-full sm:w-48 dark:bg-gray-800 dark:text-gray-100"
               />
               <button
                 onClick={() => {
@@ -187,8 +188,8 @@ const HistorialStock = () => {
 
       {/* Tabla para pantallas medianas y grandes */}
       <div className="hidden sm:block overflow-x-auto max-h-[500px] overflow-y-auto border rounded-lg">
-        <table className="min-w-full bg-white shadow-md rounded text-sm">
-          <thead className="bg-gray-200 text-gray-700 sticky top-0 z-10">
+        <table className="min-w-full bg-white dark:bg-gray-800 dark:text-gray-100 shadow-md rounded text-sm">
+          <thead className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-100 sticky top-0 z-10">
             <tr>
               <th className="py-2 px-4 text-left">N°</th>
               <th className="py-2 px-4 text-left">Usuario</th>
@@ -201,7 +202,10 @@ const HistorialStock = () => {
           </thead>
           <tbody>
             {itemsActuales.map((item, index) => (
-              <tr key={item.id} className="border-b hover:bg-gray-100">
+              <tr
+                key={item.id}
+                className="border-b hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
                 <td className="py-2 px-4">{indicePrimerItem + index + 1}</td>
                 <td className="py-2 px-4">{item.nombre_usuario}</td>
                 <td className="py-2 px-4">{item.nombre_producto}</td>
@@ -231,7 +235,7 @@ const HistorialStock = () => {
           </tbody>
         </table>
         {historialFiltrado.length === 0 && (
-          <p className="text-gray-500 mt-4">
+          <p className="text-gray-500 dark:text-gray-400 mt-4">
             No hay registros de historial de stock.
           </p>
         )}
@@ -240,12 +244,15 @@ const HistorialStock = () => {
       {/* Cards para móviles */}
       <div className="sm:hidden flex flex-col gap-4">
         {itemsActuales.map((item, index) => (
-          <div key={item.id} className="bg-white shadow rounded border p-3">
+          <div
+            key={item.id}
+            className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded border p-3"
+          >
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-blue-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">
                 {indicePrimerItem + index + 1}. {item.nombre_producto}
               </span>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 dark:text-gray-400">
                 {new Date(item.fecha).toLocaleString()}
               </span>
             </div>
@@ -273,7 +280,7 @@ const HistorialStock = () => {
           </div>
         ))}
         {historialFiltrado.length === 0 && (
-          <p className="text-gray-500 mt-4">
+          <p className="text-gray-500 dark:text-gray-400 mt-4">
             No hay registros de historial de stock.
           </p>
         )}
@@ -285,7 +292,7 @@ const HistorialStock = () => {
           <button
             onClick={paginaAnterior}
             disabled={paginaActual === 1}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Anterior
           </button>
@@ -296,7 +303,7 @@ const HistorialStock = () => {
               className={`px-3 py-1 rounded ${
                 paginaActual === i + 1
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-gray-100"
               }`}
             >
               {i + 1}
@@ -305,7 +312,7 @@ const HistorialStock = () => {
           <button
             onClick={siguientePagina}
             disabled={paginaActual === totalPaginas}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Siguiente
           </button>

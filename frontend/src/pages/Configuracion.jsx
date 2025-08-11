@@ -13,6 +13,7 @@ const Configuraciones = () => {
 
   const guardarTema = () => {
     localStorage.setItem("tema", tema);
+    document.documentElement.classList.toggle("dark", tema === "oscuro");
     alert(`Tema cambiado a ${tema}`);
   };
 
@@ -37,25 +38,25 @@ const Configuraciones = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Configuraciones</h1>
+    <div className="p-6 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <h1 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">Configuraciones</h1>
       {/* Perfil */}
-      <div className="bg-white dark:bg-gray-300 p-4 rounded shadow mb-6">
-        <h2 className="text-xl mb-3 font-semibold">Actualizar Perfil</h2>
+      <div className="bg-white dark:bg-gray-800 p-4 rounded shadow mb-6">
+        <h2 className="text-xl mb-3 font-semibold text-gray-700 dark:text-gray-100">Actualizar Perfil</h2>
         <form onSubmit={actualizarPerfil} className="space-y-3">
           <input
             type="text"
             placeholder="Nombre"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className="border p-2 w-full rounded"
+            className="border p-2 w-full rounded bg-gray-50 dark:bg-gray-700 dark:text-gray-100"
           />
           <input
             type="email"
             placeholder="Correo electrónico"
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
-            className="border p-2 w-full rounded"
+            className="border p-2 w-full rounded bg-gray-50 dark:bg-gray-700 dark:text-gray-100"
           />
           <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             Guardar cambios
@@ -63,12 +64,12 @@ const Configuraciones = () => {
         </form>
       </div>
       {/* Tema */}
-      <div className="bg-white dark:bg-gray-300 p-4 rounded shadow">
-        <h2 className="text-xl mb-3 font-semibold">Tema</h2>
+      <div className="bg-white dark:bg-gray-800 p-4 rounded shadow">
+        <h2 className="text-xl mb-3 font-semibold text-gray-700 dark:text-gray-100">Tema</h2>
         <select
           value={tema}
           onChange={(e) => setTema(e.target.value)}
-          className="border p-2 rounded mr-2"
+          className="border p-2 rounded mr-2 bg-gray-50 dark:bg-gray-700 dark:text-gray-100"
         >
           <option value="claro">Claro</option>
           <option value="oscuro">Oscuro</option>

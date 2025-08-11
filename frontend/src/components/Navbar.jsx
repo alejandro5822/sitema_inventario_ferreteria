@@ -12,17 +12,19 @@ export default function Navbar({ onMenuClick }) {
   };
 
   return (
-    <header className="bg-white shadow-md px-4 sm:px-6 py-3 flex justify-between items-center h-16">
+    <header className="bg-white dark:bg-gray-700 shadow-md px-4 sm:px-6 py-3 flex justify-between items-center h-16 transition-colors">
       <button
-        className="sm:hidden mr-2 text-gray-700"
+        className="sm:hidden mr-2 text-gray-700 dark:text-gray-200"
         onClick={onMenuClick}
         aria-label="Abrir menú"
       >
         <Menu size={28} />
       </button>
-      <h1 className="text-lg font-bold text-gray-700 flex-1">Panel de Control</h1>
+      <h1 className="text-lg font-bold text-gray-700 dark:text-gray-100 flex-1">
+        Panel de Control
+      </h1>
       <div className="flex items-center gap-2 sm:gap-4">
-        <span className="hidden sm:block text-gray-600">
+        <span className="hidden sm:block text-gray-600 dark:text-gray-300">
           <p className="font-bold">Bienvenido: </p>
           {usuario?.nombre ?? "Usuario"} ({usuario?.rol_nombre ?? "Invitado"})
         </span>

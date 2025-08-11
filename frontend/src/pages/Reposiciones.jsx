@@ -116,12 +116,12 @@ const Reposiciones = () => {
     doc.save("reposiciones.pdf");
   };
 
-  if (loading) return <p>Cargando reposiciones...</p>;
+  if (loading) return <p className="dark:text-gray-100">Cargando reposiciones...</p>;
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-        <h1 className="text-xl font-bold text-center sm:text-left">Listado de Reposiciones</h1>
+        <h1 className="text-xl font-bold text-center sm:text-left dark:text-gray-100">Listado de Reposiciones</h1>
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <select
             value={tipoBusqueda}
@@ -131,7 +131,7 @@ const Reposiciones = () => {
               setValorBusquedaTemp("");
               setPaginaActual(1);
             }}
-            className="border px-3 py-2 rounded w-full sm:w-auto"
+            className="border px-3 py-2 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
           >
             <option value="producto">Producto</option>
             <option value="proveedor">Proveedor</option>
@@ -146,7 +146,7 @@ const Reposiciones = () => {
                 setValorBusqueda(e.target.value);
                 setPaginaActual(1);
               }}
-              className="border px-2 py-1 rounded w-full sm:w-auto"
+              className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
             >
               <option value="">Todos</option>
               <option value="pendiente">Pendiente</option>
@@ -161,7 +161,7 @@ const Reposiciones = () => {
                 setValorBusqueda(e.target.value);
                 setPaginaActual(1);
               }}
-              className="border px-2 py-1 rounded w-full sm:w-auto"
+              className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
             />
           ) : (
             <>
@@ -170,7 +170,7 @@ const Reposiciones = () => {
                 value={valorBusquedaTemp}
                 onChange={e => setValorBusquedaTemp(e.target.value)}
                 placeholder={`Buscar por ${tipoBusqueda}`}
-                className="border px-2 py-1 rounded w-full sm:w-48"
+                className="border px-2 py-1 rounded w-full sm:w-48 dark:bg-gray-800 dark:text-gray-100"
               />
               <button
                 onClick={() => {
@@ -194,9 +194,9 @@ const Reposiciones = () => {
 
       {/* Tabla para pantallas medianas y grandes */}
       <div className="hidden sm:block overflow-x-auto">
-        <table className="min-w-full border text-sm text-left">
-          <thead className="bg-gray-100">
-            <tr className="bg-gray-200 text-gray-700">
+        <table className="min-w-full border text-sm text-left bg-white dark:bg-gray-800 dark:text-gray-100">
+          <thead className="bg-gray-100 dark:bg-gray-700">
+            <tr className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-100">
               <th className="px-3 py-2">N°</th>
               <th className="px-3 py-2">Producto</th>
               <th className="px-3 py-2">Proveedor</th>
@@ -212,7 +212,7 @@ const Reposiciones = () => {
           </thead>
           <tbody>
             {reposicionesActuales.map((r, index) => (
-              <tr key={r.id} className="border-b hover:bg-gray-50">
+              <tr key={r.id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td className="px-3 py-2">{indicePrimerItem + index + 1}</td>
                 <td className="px-3 py-2">{r.producto}</td>
                 <td className="px-3 py-2">{r.proveedor || "—"}</td>
@@ -266,12 +266,12 @@ const Reposiciones = () => {
       {/* Cards para móviles */}
       <div className="sm:hidden flex flex-col gap-4">
         {reposicionesActuales.map((r, index) => (
-          <div key={r.id} className="bg-white shadow rounded border p-3">
+          <div key={r.id} className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded border p-3">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-blue-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">
                 {indicePrimerItem + index + 1}. {r.producto}
               </span>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 dark:text-gray-400">
                 {new Date(r.fecha_solicitud).toLocaleString()}
               </span>
             </div>
@@ -326,7 +326,7 @@ const Reposiciones = () => {
           <button
             onClick={() => cambiarPagina(paginaActual - 1)}
             disabled={paginaActual === 1}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Anterior
           </button>
@@ -337,7 +337,7 @@ const Reposiciones = () => {
               className={`px-3 py-1 rounded ${
                 paginaActual === i + 1
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-gray-100"
               }`}
             >
               {i + 1}
@@ -346,7 +346,7 @@ const Reposiciones = () => {
           <button
             onClick={() => cambiarPagina(paginaActual + 1)}
             disabled={paginaActual === totalPaginas}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Siguiente
           </button>

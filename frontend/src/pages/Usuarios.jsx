@@ -122,10 +122,10 @@ const Usuarios = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Título y botón nuevo usuario */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-        <h2 className="text-2xl font-semibold text-center sm:text-left">Usuarios</h2>
+        <h2 className="text-2xl font-semibold text-center sm:text-left dark:text-gray-100">Usuarios</h2>
         <button
           onClick={abrirModalNuevo}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full sm:w-auto"
@@ -145,7 +145,7 @@ const Usuarios = () => {
               setValorBusquedaTemp("");
               setPaginaActual(1);
             }}
-            className="border px-2 py-1 rounded w-full sm:w-auto"
+            className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
           >
             <option value="nombre">Nombre</option>
             <option value="correo">Correo</option>
@@ -160,7 +160,7 @@ const Usuarios = () => {
                 setValorBusqueda(e.target.value);
                 setPaginaActual(1);
               }}
-              className="border px-2 py-1 rounded w-full sm:w-auto"
+              className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
             >
               <option value="">Todos</option>
               <option value="Administrador">Administrador</option>
@@ -173,7 +173,7 @@ const Usuarios = () => {
                 setValorBusqueda(e.target.value);
                 setPaginaActual(1);
               }}
-              className="border px-2 py-1 rounded w-full sm:w-auto"
+              className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
             >
               <option value="">Todos</option>
               <option value="activo">Activo</option>
@@ -187,7 +187,7 @@ const Usuarios = () => {
                 setValorBusqueda(e.target.value);
                 setPaginaActual(1);
               }}
-              className="border px-2 py-1 rounded w-full sm:w-auto"
+              className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
             />
           ) : (
             <>
@@ -196,7 +196,7 @@ const Usuarios = () => {
                 value={valorBusquedaTemp}
                 onChange={e => setValorBusquedaTemp(e.target.value)}
                 placeholder={`Buscar por ${tipoBusqueda}`}
-                className="border px-2 py-1 rounded w-full sm:w-48"
+                className="border px-2 py-1 rounded w-full sm:w-48 dark:bg-gray-800 dark:text-gray-100"
               />
               <button
                 onClick={() => {
@@ -220,34 +220,34 @@ const Usuarios = () => {
 
       {/* Tabla para pantallas medianas y grandes */}
       <div className="hidden sm:block overflow-x-auto">
-        <table className="min-w-full border bg-white shadow text-sm">
-          <thead className="bg-gray-100">
+        <table className="min-w-full border bg-white dark:bg-gray-800 dark:text-gray-100 shadow text-sm">
+          <thead className="bg-gray-100 dark:bg-gray-700">
             <tr>
-              <th className="p-2 border">N°</th>
-              <th className="p-2 border">Nombre y Apellidos</th>
-              <th className="p-2 border">Correo</th>
-              <th className="p-2 border">Rol</th>
-              <th className="p-2 border">Estado</th>
-              <th className="p-2 border">Fecha de creacion</th>
-              <th className="p-2 border">Acciones</th>
+              <th className="p-2 border dark:border-gray-700">N°</th>
+              <th className="p-2 border dark:border-gray-700">Nombre y Apellidos</th>
+              <th className="p-2 border dark:border-gray-700">Correo</th>
+              <th className="p-2 border dark:border-gray-700">Rol</th>
+              <th className="p-2 border dark:border-gray-700">Estado</th>
+              <th className="p-2 border dark:border-gray-700">Fecha de creacion</th>
+              <th className="p-2 border dark:border-gray-700">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {itemsActuales.map((usuario, index) => (
-              <tr key={usuario.id} className="hover:bg-gray-100">
-                <td className="p-2 border">{indicePrimerItem + index + 1}</td>
-                <td className="p-2 border">{usuario.nombre}</td>
-                <td className="p-2 border">{usuario.correo}</td>
-                <td className="p-2 border">{usuario.rol}</td>
+              <tr key={usuario.id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                <td className="p-2 border dark:border-gray-700">{indicePrimerItem + index + 1}</td>
+                <td className="p-2 border dark:border-gray-700">{usuario.nombre}</td>
+                <td className="p-2 border dark:border-gray-700">{usuario.correo}</td>
+                <td className="p-2 border dark:border-gray-700">{usuario.rol}</td>
                 {usuario.estado === true ? (
-                  <td className="p-2 border text-green-500">Activo</td>
+                  <td className="p-2 border dark:border-gray-700 text-green-500">Activo</td>
                 ) : (
-                  <td className="p-2 border text-red-500">Inactivo</td>
+                  <td className="p-2 border dark:border-gray-700 text-red-500">Inactivo</td>
                 )}
-                <td className="p-2 border">
+                <td className="p-2 border dark:border-gray-700">
                   {new Date(usuario.fecha_creacion).toLocaleDateString()}
                 </td>
-                <td className="p-2 border space-x-2">
+                <td className="p-2 border dark:border-gray-700 space-x-2">
                   <button
                     onClick={() => abrirModalEditar(usuario)}
                     className="text-white bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded"
@@ -270,19 +270,19 @@ const Usuarios = () => {
           </tbody>
         </table>
         {usuarios.length === 0 && (
-          <p className="text-gray-500 mt-4">No hay registros de usuarios.</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-4">No hay registros de usuarios.</p>
         )}
       </div>
 
       {/* Cards para móviles */}
       <div className="sm:hidden flex flex-col gap-4">
         {itemsActuales.map((usuario, index) => (
-          <div key={usuario.id} className="bg-white shadow rounded border p-3">
+          <div key={usuario.id} className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded border p-3">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-blue-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">
                 {indicePrimerItem + index + 1}. {usuario.nombre}
               </span>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 dark:text-gray-400">
                 {new Date(usuario.fecha_creacion).toLocaleDateString()}
               </span>
             </div>
@@ -321,7 +321,7 @@ const Usuarios = () => {
           </div>
         ))}
         {usuarios.length === 0 && (
-          <p className="text-gray-500 mt-4">No hay registros de usuarios.</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-4">No hay registros de usuarios.</p>
         )}
       </div>
 
@@ -331,17 +331,17 @@ const Usuarios = () => {
           <button
             onClick={paginaAnterior}
             disabled={paginaActual === 1}
-            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Anterior
           </button>
-          <span className="text-sm font-medium">
+          <span className="text-sm font-medium dark:text-gray-100">
             Página {paginaActual} de {totalPaginas}
           </span>
           <button
             onClick={siguientePagina}
             disabled={paginaActual === totalPaginas}
-            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Siguiente
           </button>

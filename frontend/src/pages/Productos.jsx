@@ -229,13 +229,13 @@ const Productos = () => {
     saveAs(data, "productos.xlsx");
   };
 
-  if (loading) return <p>Cargando productos...</p>;
+  if (loading) return <p className="dark:text-gray-100">Cargando productos...</p>;
 
   return (
-    <div className="p-2 sm:p-4">
+    <div className="p-2 sm:p-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Título y botón registrar */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-        <h1 className="text-xl font-bold text-center sm:text-left">
+        <h1 className="text-xl font-bold text-center sm:text-left dark:text-gray-100">
           Listado de Productos
         </h1>
         <button
@@ -258,7 +258,7 @@ const Productos = () => {
               setValorBusquedaTemp("");
               setPaginaActual(1);
             }}
-            className="border px-2 py-1 rounded w-full sm:w-auto"
+            className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
           >
             <option value="nombre">Nombre</option>
             <option value="categoria">Categoría</option>
@@ -273,7 +273,7 @@ const Productos = () => {
                 setValorBusqueda(e.target.value);
                 setPaginaActual(1);
               }}
-              className="border px-2 py-1 rounded w-full sm:w-auto"
+              className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
             >
               <option value="">Todos</option>
               <option value="activo">Activo</option>
@@ -286,7 +286,7 @@ const Productos = () => {
                 value={valorBusquedaTemp}
                 onChange={(e) => setValorBusquedaTemp(e.target.value)}
                 placeholder={`Buscar por ${tipoBusqueda}`}
-                className="border px-2 py-1 rounded w-full sm:w-48"
+                className="border px-2 py-1 rounded w-full sm:w-48 dark:bg-gray-800 dark:text-gray-100"
               />
               <button
                 onClick={() => {
@@ -319,9 +319,9 @@ const Productos = () => {
 
       {/* Tabla para pantallas medianas y grandes */}
       <div className="hidden sm:block overflow-x-auto">
-        <table className="min-w-full border text-sm text-left">
-          <thead className="bg-gray-100">
-            <tr className="bg-gray-200 text-gray-700">
+        <table className="min-w-full border text-sm text-left bg-white dark:bg-gray-800 dark:text-gray-100">
+          <thead className="bg-gray-100 dark:bg-gray-700">
+            <tr className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-100">
               <th className="px-3 py-2">N°</th>
               <th className="px-3 py-2">Nombre</th>
               <th className="px-3 py-2">Precio Venta</th>
@@ -337,7 +337,7 @@ const Productos = () => {
           </thead>
           <tbody>
             {productos.map((producto, index) => (
-              <tr key={producto.id} className="border-b hover:bg-gray-50">
+              <tr key={producto.id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td className="px-3 py-2">
                   {(paginaActual - 1) * itemsPorPagina + index + 1}
                 </td>
@@ -396,7 +396,6 @@ const Productos = () => {
                   >
                     {producto.estado ? <FaToggleOn /> : <FaToggleOff />}
                   </button>
-
                   <button
                     onClick={() => handleEliminar(producto.id)}
                     className="bg-red-600 text-white px-3 py-3 rounded hover:bg-red-700"
@@ -413,12 +412,12 @@ const Productos = () => {
       {/* Cards para móviles */}
       <div className="sm:hidden flex flex-col gap-4">
         {productos.map((producto, index) => (
-          <div key={producto.id} className="bg-white shadow rounded border p-3">
+          <div key={producto.id} className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded border p-3">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-blue-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">
                 {(paginaActual - 1) * itemsPorPagina + index + 1}. {producto.nombre}
               </span>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 dark:text-gray-400">
                 {producto.estado ? (
                   <span className="text-green-600 font-semibold">Activo</span>
                 ) : (
@@ -491,7 +490,7 @@ const Productos = () => {
           <button
             onClick={() => cambiarPagina(paginaActual - 1)}
             disabled={paginaActual === 1}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Anterior
           </button>
@@ -502,7 +501,7 @@ const Productos = () => {
               className={`px-3 py-1 rounded ${
                 paginaActual === i + 1
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-gray-100"
               }`}
             >
               {i + 1}
@@ -511,7 +510,7 @@ const Productos = () => {
           <button
             onClick={() => cambiarPagina(paginaActual + 1)}
             disabled={paginaActual === totalPaginas}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Siguiente
           </button>
@@ -535,10 +534,10 @@ const Productos = () => {
       {/* Modal producto */}
       {mostrarModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-          <div className="bg-white p-6 rounded shadow-lg w-full max-w-2xl relative">
+          <div className="bg-white dark:bg-gray-800 dark:text-gray-100 p-6 rounded shadow-lg w-full max-w-2xl relative">
             <button
               onClick={cerrarModal}
-              className="absolute top-2 right-3 text-gray-600 text-xl font-bold"
+              className="absolute top-2 right-3 text-gray-600 dark:text-gray-200 text-xl font-bold"
             >
               &times;
             </button>

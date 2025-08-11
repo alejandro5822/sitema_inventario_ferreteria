@@ -103,7 +103,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-white rounded shadow"
+      className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-white dark:bg-gray-800 dark:text-gray-100 rounded shadow transition-colors"
     >
       <input
         type="text"
@@ -112,7 +112,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         onChange={handleChange}
         placeholder="Nombre del producto"
         required
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded dark:bg-gray-700 dark:text-gray-100"
       />
       <input
         type="number"
@@ -121,7 +121,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         onChange={handleChange}
         placeholder="Precio"
         required
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded dark:bg-gray-700 dark:text-gray-100"
       />
       <input
         type="number"
@@ -130,7 +130,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         onChange={handleChange}
         placeholder="Precio de compra"
         required
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded dark:bg-gray-700 dark:text-gray-100"
       />
       <input
         type="number"
@@ -139,7 +139,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         onChange={handleChange}
         placeholder="Stock"
         required
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded dark:bg-gray-700 dark:text-gray-100"
       />
       <textarea
         name="descripcion"
@@ -147,14 +147,14 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         onChange={handleChange}
         placeholder="Descripción"
         rows="2"
-        className="border px-3 py-2 rounded md:col-span-2"
+        className="border px-3 py-2 rounded md:col-span-2 dark:bg-gray-700 dark:text-gray-100"
       ></textarea>
 
       <select
         name="categoria_id"
         value={formulario.categoria_id}
         onChange={handleChange}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded dark:bg-gray-700 dark:text-gray-100"
         required
       >
         <option value="">Seleccione categoría</option>
@@ -169,7 +169,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         name="subcategoria_id"
         value={formulario.subcategoria_id}
         onChange={handleChange}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded dark:bg-gray-700 dark:text-gray-100"
       >
         <option value="">Seleccione subcategoría</option>
         {subcategorias
@@ -185,7 +185,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         name="proveedor_id"
         value={formulario.proveedor_id}
         onChange={handleChange}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded dark:bg-gray-700 dark:text-gray-100"
       >
         <option value="">Seleccione proveedor</option>
         {proveedores.map((prov) => (
@@ -200,7 +200,7 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
         name="imagen"
         onChange={handleChange}
         accept="image/*"
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded dark:bg-gray-700 dark:text-gray-100"
       />
 
       <button

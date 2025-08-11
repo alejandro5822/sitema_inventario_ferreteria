@@ -108,7 +108,7 @@ const UsuarioFormModal = ({ usuario, cerrar }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-lg">
+      <div className="bg-white dark:bg-gray-800 dark:text-gray-100 p-6 rounded shadow-md w-full max-w-lg transition-colors">
         <h3 className="text-lg font-bold mb-4">
           {usuario ? "Editar Usuario" : "Nuevo Usuario"}
         </h3>
@@ -118,7 +118,7 @@ const UsuarioFormModal = ({ usuario, cerrar }) => {
             name="nombre"
             value={formulario.nombre}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:text-gray-100"
             placeholder="Nombre completo"
             required
           />
@@ -127,7 +127,7 @@ const UsuarioFormModal = ({ usuario, cerrar }) => {
             name="correo"
             value={formulario.correo}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:text-gray-100"
             placeholder="Correo electrónico"
             required
           />
@@ -136,7 +136,7 @@ const UsuarioFormModal = ({ usuario, cerrar }) => {
             name="contrasena"
             value={formulario.contrasena}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:text-gray-100"
             placeholder="Contraseña"
             required={!usuario}
           />
@@ -145,7 +145,7 @@ const UsuarioFormModal = ({ usuario, cerrar }) => {
             name="confirmarContrasena"
             value={formulario.confirmarContrasena}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:text-gray-100"
             placeholder="Confirmar contraseña"
             required={!usuario}
           />
@@ -153,7 +153,7 @@ const UsuarioFormModal = ({ usuario, cerrar }) => {
             name="rol_id"
             value={formulario.rol_id}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:text-gray-100"
             required
           >
             <option value="">Seleccione un rol</option>
@@ -176,7 +176,7 @@ const UsuarioFormModal = ({ usuario, cerrar }) => {
             <button
               type="button"
               onClick={cerrar}
-              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+              className="bg-gray-400 dark:bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-500 dark:hover:bg-gray-700"
             >
               Cancelar
             </button>

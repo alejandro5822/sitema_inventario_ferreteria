@@ -102,18 +102,9 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
     }
   };
 
-  const nuevoMovimiento = {
-    producto_id: formulario.producto_id,
-    tipo_movimiento: formulario.tipo_movimiento,
-    cantidad: formulario.cantidad,
-    descripcion: formulario.descripcion,
-    usuario_id: usuario.id,
-    proveedor_id: proveedorId,
-  };
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-lg">
+      <div className="bg-white dark:bg-gray-800 dark:text-gray-100 p-6 rounded shadow-md w-full max-w-lg transition-colors">
         <h3 className="text-lg font-bold mb-4">
           {movimiento ? "Editar Movimiento" : "Nuevo Movimiento"}
         </h3>
@@ -122,9 +113,9 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
             name="producto_id"
             value={formulario.producto_id}
             onChange={handleProductoChange}
-            required={!movimiento} // Solo requerido si es nuevo
-            disabled={!!movimiento} // Bloqueado si estás editando
-            className="w-full border p-2 rounded"
+            required={!movimiento}
+            disabled={!!movimiento}
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:text-gray-100"
           >
             <option value="">Seleccione producto</option>
             {productos.map((prod) => (
@@ -139,7 +130,7 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
             name="proveedor_nombre"
             value={proveedorNombre}
             readOnly
-            className="w-full border p-2 rounded mt-2"
+            className="w-full border p-2 rounded mt-2 dark:bg-gray-700 dark:text-gray-100"
             placeholder="Proveedor"
           />
 
@@ -147,7 +138,7 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
             name="tipo_movimiento"
             value={formulario.tipo_movimiento}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:text-gray-100"
             required
           >
             <option value="entrada">Entrada</option>
@@ -158,7 +149,7 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
             name="descripcion"
             value={formulario.descripcion}
             onChange={handleChange}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:text-gray-100"
             required
           >
             <option value="Venta">Venta</option>
@@ -173,7 +164,7 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
             onChange={handleChange}
             min="1"
             required
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:text-gray-100"
             placeholder="Cantidad"
             disabled={!!movimiento}
           />
@@ -182,7 +173,7 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
             <button
               type="button"
               onClick={cerrar}
-              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+              className="bg-gray-400 dark:bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-500 dark:hover:bg-gray-700"
             >
               Cancelar
             </button>

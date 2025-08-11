@@ -123,9 +123,9 @@ const Proveedores = () => {
   };
 
   return (
-    <div className="p-2 sm:p-4">
+    <div className="p-2 sm:p-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-        <h2 className="text-xl sm:text-2xl font-bold text-center sm:text-left">
+        <h2 className="text-xl sm:text-2xl font-bold text-center sm:text-left dark:text-gray-100">
           Lista de Proveedores
         </h2>
         <button
@@ -147,7 +147,7 @@ const Proveedores = () => {
               setBusquedaTemp("");
               setPaginaActual(1);
             }}
-            className="border px-2 py-1 rounded w-full sm:w-auto"
+            className="border px-2 py-1 rounded w-full sm:w-auto dark:bg-gray-800 dark:text-gray-100"
           >
             <option value="nombre">Nombre</option>
             <option value="correo">Correo</option>
@@ -157,7 +157,7 @@ const Proveedores = () => {
             value={busquedaTemp}
             onChange={(e) => setBusquedaTemp(e.target.value)}
             placeholder={`Buscar por ${tipoBusqueda}`}
-            className="border px-2 py-1 rounded w-full sm:w-48"
+            className="border px-2 py-1 rounded w-full sm:w-48 dark:bg-gray-800 dark:text-gray-100"
           />
           <button
             onClick={() => {
@@ -179,30 +179,30 @@ const Proveedores = () => {
 
       {/* Tabla para pantallas medianas y grandes */}
       <div className="hidden sm:block overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 text-left text-sm">
+        <table className="min-w-full bg-white dark:bg-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 text-left text-sm">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="px-2 sm:px-4 py-2 border">N°</th>
-              <th className="px-2 sm:px-4 py-2 border">Nombre</th>
-              <th className="px-2 sm:px-4 py-2 border">Correo</th>
-              <th className="px-2 sm:px-4 py-2 border">Teléfono</th>
-              <th className="px-2 sm:px-4 py-2 border">Dirección</th>
-              <th className="px-2 sm:px-4 py-2 border">Fecha de Registro</th>
-              <th className="px-2 sm:px-4 py-2 border">Acciones</th>
+            <tr className="bg-gray-100 dark:bg-gray-700">
+              <th className="px-2 sm:px-4 py-2 border dark:border-gray-700">N°</th>
+              <th className="px-2 sm:px-4 py-2 border dark:border-gray-700">Nombre</th>
+              <th className="px-2 sm:px-4 py-2 border dark:border-gray-700">Correo</th>
+              <th className="px-2 sm:px-4 py-2 border dark:border-gray-700">Teléfono</th>
+              <th className="px-2 sm:px-4 py-2 border dark:border-gray-700">Dirección</th>
+              <th className="px-2 sm:px-4 py-2 border dark:border-gray-700">Fecha de Registro</th>
+              <th className="px-2 sm:px-4 py-2 border dark:border-gray-700">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {proveedoresActuales.map((proveedor, index) => (
-              <tr key={proveedor.id}>
-                <td className="border px-2 sm:px-4 py-2">
+              <tr key={proveedor.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td className="border px-2 sm:px-4 py-2 dark:border-gray-700">
                   {indicePrimerItem + index + 1}
                 </td>
-                <td className="border px-2 sm:px-4 py-2 break-words max-w-[120px] sm:max-w-none">{proveedor.nombre}</td>
-                <td className="border px-2 sm:px-4 py-2 break-words max-w-[140px] sm:max-w-none">{proveedor.correo}</td>
-                <td className="border px-2 sm:px-4 py-2 break-words max-w-[100px] sm:max-w-none">{proveedor.telefono}</td>
-                <td className="border px-2 sm:px-4 py-2 break-words max-w-[140px] sm:max-w-none">{proveedor.direccion}</td>
-                <td className="border px-2 sm:px-4 py-2 break-words max-w-[120px] sm:max-w-none">{proveedor.fecha_creacion}</td>
-                <td className="border px-2 sm:px-4 py-3 flex flex-col sm:flex-row justify-center items-center gap-2">
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[120px] sm:max-w-none dark:border-gray-700">{proveedor.nombre}</td>
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[140px] sm:max-w-none dark:border-gray-700">{proveedor.correo}</td>
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[100px] sm:max-w-none dark:border-gray-700">{proveedor.telefono}</td>
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[140px] sm:max-w-none dark:border-gray-700">{proveedor.direccion}</td>
+                <td className="border px-2 sm:px-4 py-2 break-words max-w-[120px] sm:max-w-none dark:border-gray-700">{proveedor.fecha_creacion}</td>
+                <td className="border px-2 sm:px-4 py-3 flex flex-col sm:flex-row justify-center items-center gap-2 dark:border-gray-700">
                   <button
                     className="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded w-full sm:w-auto"
                     onClick={() => abrirModal(proveedor)}
@@ -225,12 +225,12 @@ const Proveedores = () => {
       {/* Cards para móviles */}
       <div className="sm:hidden flex flex-col gap-4">
         {proveedoresActuales.map((proveedor, index) => (
-          <div key={proveedor.id} className="bg-white shadow rounded border p-3">
+          <div key={proveedor.id} className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded border p-3">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-blue-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">
                 {indicePrimerItem + index + 1}. {proveedor.nombre}
               </span>
-              <span className="text-xs text-gray-500">{proveedor.fecha_creacion}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">{proveedor.fecha_creacion}</span>
             </div>
             <div className="text-sm mb-1"><span className="font-semibold">Correo:</span> {proveedor.correo}</div>
             <div className="text-sm mb-1"><span className="font-semibold">Teléfono:</span> {proveedor.telefono}</div>
@@ -259,7 +259,7 @@ const Proveedores = () => {
           <button
             onClick={() => cambiarPagina(paginaActual - 1)}
             disabled={paginaActual === 1}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Anterior
           </button>
@@ -270,7 +270,7 @@ const Proveedores = () => {
               className={`px-3 py-1 rounded ${
                 paginaActual === i + 1
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-gray-100"
               }`}
             >
               {i + 1}
@@ -279,7 +279,7 @@ const Proveedores = () => {
           <button
             onClick={() => cambiarPagina(paginaActual + 1)}
             disabled={paginaActual === totalPaginas}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Siguiente
           </button>

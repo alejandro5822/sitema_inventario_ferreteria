@@ -107,9 +107,9 @@ const SubCategorias = () => {
   };
 
   return (
-    <div className="p-2 sm:p-4">
+    <div className="p-2 sm:p-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-        <h2 className="text-xl sm:text-2xl font-bold text-center sm:text-left">
+        <h2 className="text-xl sm:text-2xl font-bold text-center sm:text-left dark:text-gray-100">
           Lista de Subcategorías
         </h2>
         <button
@@ -128,7 +128,7 @@ const SubCategorias = () => {
             value={busquedaTemp}
             onChange={e => setBusquedaTemp(e.target.value)}
             placeholder="Buscar por subcategoría..."
-            className="border px-2 py-1 rounded w-full sm:w-48"
+            className="border px-2 py-1 rounded w-full sm:w-48 dark:bg-gray-800 dark:text-gray-100"
           />
           <button
             onClick={() => {
@@ -150,9 +150,9 @@ const SubCategorias = () => {
 
       {/* Tabla para pantallas medianas y grandes */}
       <div className="hidden sm:block overflow-x-auto">
-        <table className="min-w-full bg-white shadow rounded text-sm">
+        <table className="min-w-full bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded text-sm">
           <thead>
-            <tr className="bg-gray-200 text-left">
+            <tr className="bg-gray-200 dark:bg-gray-700 text-left">
               <th className="p-3">N°</th>
               <th className="p-3">Sub Categoría</th>
               <th className="p-3">Categoría</th>
@@ -161,7 +161,7 @@ const SubCategorias = () => {
           </thead>
           <tbody>
             {subcategoriasActuales.map((sub, index) => (
-              <tr key={sub.id} className="border-t hover:bg-gray-50">
+              <tr key={sub.id} className="border-t hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td className="p-3">{indicePrimerItem + index + 1}</td>
                 <td className="p-3">{sub.nombre}</td>
                 <td className="p-3">{sub.categoria_nombre}</td>
@@ -188,9 +188,9 @@ const SubCategorias = () => {
       {/* Cards para móviles */}
       <div className="sm:hidden flex flex-col gap-4">
         {subcategoriasActuales.map((sub, index) => (
-          <div key={sub.id} className="bg-white shadow rounded border p-3">
+          <div key={sub.id} className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded border p-3">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-blue-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">
                 {indicePrimerItem + index + 1}. {sub.nombre}
               </span>
             </div>
@@ -222,7 +222,7 @@ const SubCategorias = () => {
           <button
             onClick={() => cambiarPagina(paginaActual - 1)}
             disabled={paginaActual === 1}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Anterior
           </button>
@@ -233,7 +233,7 @@ const SubCategorias = () => {
               className={`px-3 py-1 rounded ${
                 paginaActual === i + 1
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-gray-100"
               }`}
             >
               {i + 1}
@@ -242,7 +242,7 @@ const SubCategorias = () => {
           <button
             onClick={() => cambiarPagina(paginaActual + 1)}
             disabled={paginaActual === totalPaginas}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Siguiente
           </button>
@@ -258,6 +258,6 @@ const SubCategorias = () => {
       )}
     </div>
   );
-}
+};
 
 export default SubCategorias;

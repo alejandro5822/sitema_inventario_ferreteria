@@ -130,10 +130,10 @@ const Categorias = () => {
   };
 
   return (
-    <div className="p-2 sm:p-4">
+    <div className="p-2 sm:p-4 min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Título y botón nueva categoría */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
-        <h2 className="text-xl sm:text-2xl font-bold text-center sm:text-left">
+        <h2 className="text-xl sm:text-2xl font-bold text-center sm:text-left dark:text-gray-100">
           Lista de Categorías
         </h2>
         <button
@@ -152,7 +152,7 @@ const Categorias = () => {
             value={busquedaTemp}
             onChange={(e) => setBusquedaTemp(e.target.value)}
             placeholder="Buscar por categoria..."
-            className="border px-2 py-1 rounded w-full sm:w-48"
+            className="border px-2 py-1 rounded w-full sm:w-48 dark:bg-gray-800 dark:text-gray-100"
           />
           <button
             onClick={() => {
@@ -174,9 +174,9 @@ const Categorias = () => {
 
       {/* Tabla para pantallas medianas y grandes */}
       <div className="hidden sm:block overflow-x-auto">
-        <table className="min-w-full bg-white shadow rounded text-sm">
+        <table className="min-w-full bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded text-sm">
           <thead>
-            <tr className="bg-gray-200 text-left">
+            <tr className="bg-gray-200 dark:bg-gray-700 text-left">
               <th className="p-3">ID</th>
               <th className="p-3">Nombre</th>
               <th className="p-3">Descripcion</th>
@@ -185,7 +185,7 @@ const Categorias = () => {
           </thead>
           <tbody>
             {categoriasActualesFiltradas.map((cat, index) => (
-              <tr key={cat.id} className="border-t hover:bg-gray-50">
+              <tr key={cat.id} className="border-t hover:bg-gray-50 dark:hover:bg-gray-700">
                 <td className="p-3">{indicePrimerItemFiltrado + index + 1}</td>
                 <td className="p-3">{cat.nombre}</td>
                 <td className="p-3">{cat.descripcion || "Sin descripción"}</td>
@@ -212,9 +212,9 @@ const Categorias = () => {
       {/* Cards para móviles */}
       <div className="sm:hidden flex flex-col gap-4">
         {categoriasActualesFiltradas.map((cat, index) => (
-          <div key={cat.id} className="bg-white shadow rounded border p-3">
+          <div key={cat.id} className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded border p-3">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-blue-700">
+              <span className="font-bold text-blue-700 dark:text-blue-300">
                 {indicePrimerItemFiltrado + index + 1}. {cat.nombre}
               </span>
             </div>
@@ -246,7 +246,7 @@ const Categorias = () => {
           <button
             onClick={() => cambiarPagina(paginaActual - 1)}
             disabled={paginaActual === 1}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Anterior
           </button>
@@ -257,7 +257,7 @@ const Categorias = () => {
               className={`px-3 py-1 rounded ${
                 paginaActual === i + 1
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-gray-100"
               }`}
             >
               {i + 1}
@@ -266,7 +266,7 @@ const Categorias = () => {
           <button
             onClick={() => cambiarPagina(paginaActual + 1)}
             disabled={paginaActual === totalPaginasFiltradas}
-            className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded dark:text-gray-100"
           >
             Siguiente
           </button>

@@ -7,7 +7,7 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-600">
       {/* Sidebar ajustado */}
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} className="sm:w-64 w-0 sm:block hidden" />
       
