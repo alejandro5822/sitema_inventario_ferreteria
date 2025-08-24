@@ -5,6 +5,11 @@ dotenv.config();
 const { Pool } = pkg;
 
 const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // necesario en Render
+  },
+
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   user: process.env.DB_USER,
