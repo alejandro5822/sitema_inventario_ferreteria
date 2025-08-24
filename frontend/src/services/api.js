@@ -6,7 +6,7 @@ const API = axios.create({
 });
 */
 
-const API = "https://sitema-inventario-ferreteria.onrender.com";
+const API = "https://sitema-inventario-ferreteria.onrender.com/api";
 //const API = "http://localhost:4000/api";
 
 export default API;
