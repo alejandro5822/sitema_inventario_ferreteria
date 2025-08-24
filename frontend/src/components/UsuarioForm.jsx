@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../auth/useAuth";
 import { toast } from "react-toastify";
 import axios from "axios";
+import API from "../services/api.js"
 
 const UsuarioFormModal = ({ usuario, cerrar }) => {
   const { token } = useAuth();
@@ -18,7 +19,7 @@ const UsuarioFormModal = ({ usuario, cerrar }) => {
   useEffect(() => {
     const obtenerRoles = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/roles", {
+        const response = await axios.get(`${API}/roles`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setRoles(response.data);
@@ -63,8 +64,8 @@ const UsuarioFormModal = ({ usuario, cerrar }) => {
     try {
       const method = usuario ? "PUT" : "POST";
       const url = usuario
-        ? `http://localhost:4000/api/usuarios/${usuario.id}`
-        : "http://localhost:4000/api/usuarios";
+        ? `${API}/usuarios/${usuario.id}`
+        : `${API}/usuarios`;
 
       const body = {
         nombre: formulario.nombre,

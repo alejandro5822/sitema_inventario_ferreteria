@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../auth/useAuth";
 import { toast } from "react-toastify";
+import API from "../services/api.js"
 
 const MovimientoFormModal = ({ movimiento, cerrar }) => {
   const { usuario, token } = useAuth();
@@ -36,7 +37,7 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
 
   const obtenerProductos = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/productos", {
+      const res = await fetch(`${API}/productos`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -69,8 +70,8 @@ const MovimientoFormModal = ({ movimiento, cerrar }) => {
     try {
       const method = movimiento ? "PUT" : "POST";
       const url = movimiento
-        ? `http://localhost:4000/api/movimientos/${movimiento.id}`
-        : "http://localhost:4000/api/movimientos";
+        ? `${API}/movimientos/${movimiento.id}`
+        : `${API}/movimientos`;
 
       const body = {
         ...formulario,

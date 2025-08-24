@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/useAuth";
 import axios from "axios";
 import RolFormModal from "../components/RolFormModal";
+import API from "../services/api";
 
 const Roles = () => {
   const { usuario, token } = useAuth();
@@ -23,7 +24,7 @@ const Roles = () => {
 
   const obtenerRoles = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/roles", {
+      const res = await axios.get(`${API}/roles`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setRoles(res.data);
@@ -41,7 +42,7 @@ const Roles = () => {
     if (!confirmar) return;
 
     try {
-      await axios.delete(`http://localhost:4000/api/roles/${id}`, {
+      await axios.delete(`${API}/roles/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       obtenerRoles();

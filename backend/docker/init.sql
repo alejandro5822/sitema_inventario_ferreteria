@@ -94,3 +94,19 @@ CREATE TABLE reposiciones (
   fecha_solicitud TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   fecha_recepcion TIMESTAMP
 );
+
+INSERT INTO roles (nombre) VALUES
+('Administrador'),
+('Encargado')
+ON CONFLICT (nombre) DO NOTHING;
+
+-- Usuario Administrador por defecto
+-- La contraseña debe estar encriptada en bcrypt.
+-- Supongamos que la contraseña es: admin123
+-- Hash bcrypt: $2b$10$XlWSGZaG9oEwUOQJH8L4p.RjS6MBVtthW4AGX1OfqXrX9q.gqxCyS
+
+INSERT INTO usuarios (nombre, correo, contrasena, rol_id)
+VALUES ('Admin', 'admin@ferreteria.com',
+        '$2b$10$XlWSGZaG9oEwUOQJH8L4p.RjS6MBVtthW4AGX1OfqXrX9q.gqxCyS',
+        (SELECT id FROM roles WHERE nombre = 'Administrador'))
+ON CONFLICT (correo) DO NOTHING;

@@ -4,6 +4,7 @@ import axios from "axios";
 import ModalProveedor from "../components/ModalProveedor";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import API from "../services/api";
 
 const Proveedores = () => {
   const { token, usuario } = useAuth();
@@ -42,7 +43,7 @@ const Proveedores = () => {
 
   const obtenerProveedores = async () => {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/proveedores");
+      const { data } = await axios.get(`${API}/proveedores`);
       setProveedores(data);
     } catch (error) {
       console.error("Error al obtener proveedores", error);
@@ -69,7 +70,7 @@ const Proveedores = () => {
     if (!confirmar) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/api/proveedores/${id}`, {
+      const res = await fetch(`${API}/proveedores/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

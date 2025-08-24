@@ -4,13 +4,14 @@ import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 import { FaBoxOpen, FaChartLine, FaClipboardList, FaCalendarDay  } from "react-icons/fa";
+import API from "../services/api";
 
 export default function DashboardHome() {
   const { token } = useAuth();
   const [resumen, setResumen] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/dashboard/resumen", {
+    fetch(`${API}/dashboard/resumen`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

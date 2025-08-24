@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../auth/useAuth";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+import API from "../services/api.js"
 const RolFormModal = ({ rol, cerrar }) => {
   const { token } = useAuth();
   const esEdicion = Boolean(rol);
@@ -24,12 +24,12 @@ const RolFormModal = ({ rol, cerrar }) => {
 
     try {
       if (esEdicion) {
-        await axios.put(`http://localhost:4000/api/roles/${rol.id}`, { nombre, descripcion }, {
+        await axios.put(`${API}/roles/${rol.id}`, { nombre, descripcion }, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success("Rol actualizado correctamente");
       } else {
-        await axios.post("http://localhost:4000/api/roles", { nombre, descripcion }, {
+        await axios.post(`${API}/roles`, { nombre, descripcion }, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success("Rol creado correctamente");

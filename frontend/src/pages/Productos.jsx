@@ -4,6 +4,7 @@ import axios from "axios";
 import FormularioProducto from "../components/FormularioProducto";
 import ReposicionForm from "../components/ReposicionForm";
 import { toast } from "react-toastify";
+import API from "../services/api";
 import {
   FaDollyFlatbed,
   FaPen,
@@ -46,7 +47,7 @@ const Productos = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/productos/buscar",
+        `${API}/productos/buscar`,
         {
           params: {
             tipo,
@@ -96,7 +97,7 @@ const Productos = () => {
     try {
       const config = { headers: { Authorization: `Bearer ${token}` } };
       await axios.patch(
-        `http://localhost:4000/api/productos/${id}/estado`,
+        `${API}/productos/${id}/estado`,
         {
           estado: !estadoActual,
         },
@@ -120,7 +121,7 @@ const Productos = () => {
     if (!confirmar) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/api/productos/${id}`, {
+      const res = await fetch(`${API}/productos/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -362,7 +363,7 @@ const Productos = () => {
                 <td className="px-4 py-2">
                   {producto.imagen_url ? (
                     <img
-                      src={`http://localhost:4000${producto.imagen_url}`}
+                      src={`${API}${producto.imagen_url}`}
                       alt={producto.nombre}
                       className="w-16 h-16 object-cover"
                     />
@@ -462,7 +463,7 @@ const Productos = () => {
               <span className="font-semibold">Imagen:</span>{" "}
               {producto.imagen_url ? (
                 <img
-                  src={`http://localhost:4000${producto.imagen_url}`}
+                  src={`${API}${producto.imagen_url}`}
                   alt={producto.nombre}
                   className="w-16 h-16 object-cover mt-1"
                 />

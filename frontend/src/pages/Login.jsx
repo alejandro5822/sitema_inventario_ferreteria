@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuthContext } from '../auth/AuthContext';
+import API from '../services/api.js';
 
 const Login = () => {
   const { login } = useAuthContext();
@@ -12,7 +13,7 @@ const Login = () => {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:4000/api/auth/login', {
+      const res = await fetch(`${API}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ correo, contrasena })

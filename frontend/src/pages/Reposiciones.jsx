@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import API from "../services/api";
 
 const Reposiciones = () => {
   const { token } = useAuth();
@@ -21,7 +22,7 @@ const Reposiciones = () => {
 
   const obtenerReposiciones = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/reposiciones", {
+      const res = await axios.get(`${API}/reposiciones`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setReposiciones(res.data);
@@ -35,7 +36,7 @@ const Reposiciones = () => {
   const actualizarEstado = async (id, estado) => {
     try {
       await axios.patch(
-        `http://localhost:4000/api/reposiciones/${id}/estado`,
+        `${API}/reposiciones/${id}/estado`,
         { estado },
         { headers: { Authorization: `Bearer ${token}` } }
       );

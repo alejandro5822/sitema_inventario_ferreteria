@@ -5,6 +5,7 @@ import MovimientoFormModal from "../components/MovimientoFormModal";
 import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import API from "../services/api";
 
 const Movimientos = () => {
   const { token, usuario } = useAuth();
@@ -48,7 +49,7 @@ const Movimientos = () => {
 
   const obtenerMovimientos = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/movimientos", {
+      const res = await fetch(`${API}/movimientos`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -82,7 +83,7 @@ const Movimientos = () => {
     if (!confirmar) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/api/movimientos/${id}`, {
+      const res = await fetch(`${API}/movimientos/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 
 // Filtro para aceptar solo imágenes
 const fileFilter = (req, file, cb) => {
-  const fileTypes = /jpeg|jpg|png/;
+  const fileTypes = /jpeg|jpg|png|webp/;
   const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
   const mimeType = fileTypes.test(file.mimetype);
   if (extName && mimeType) {

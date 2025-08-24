@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import API from "../services/api.js";
 
 const ModalProveedor = ({ proveedor, cerrarModal }) => {
   const [nombre, setNombre] = useState("");
@@ -39,12 +40,12 @@ const ModalProveedor = ({ proveedor, cerrarModal }) => {
     try {
       if (proveedor) {
         await axios.put(
-          `http://localhost:4000/api/proveedores/${proveedor.id}`,
+          `${API}/proveedores/${proveedor.id}`,
           nuevoProveedor
         );
       } else {
         await axios.post(
-          "http://localhost:4000/api/proveedores",
+          `${API}/proveedores`,
           nuevoProveedor
         );
       }

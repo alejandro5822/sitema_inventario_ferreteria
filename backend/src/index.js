@@ -44,7 +44,7 @@ app.use('/api/proveedores', proveedoresRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/reposiciones', reposicionesRoutes);
 // Para servir imágenes subidas
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/api/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use('/api/movimientos', movimientosRoutes);
 app.use('/api/historial-stock', historialRoutes);
 

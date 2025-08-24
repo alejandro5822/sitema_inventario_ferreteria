@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../auth/useAuth";
 import { toast } from 'react-toastify';
+import API from "../services/api.js"
 
 const CategoriaFormModal = ({ categoria, cerrar }) => {
   const { token } = useAuth();
@@ -25,8 +26,8 @@ const CategoriaFormModal = ({ categoria, cerrar }) => {
 
     try {
       const url = esEdicion
-        ? `http://localhost:4000/api/categorias/${categoria.id}`
-        : "http://localhost:4000/api/categorias";
+        ? `${API}/categorias/${categoria.id}`
+        : `${API}/categorias`;
 
       const metodo = esEdicion ? "PUT" : "POST";
 

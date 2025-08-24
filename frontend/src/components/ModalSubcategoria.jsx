@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../auth/useAuth";
 import { toast } from 'react-toastify';
+import API from "../services/api.js"
 
 const ModalSubcategoria = ({ cerrarModal, onGuardar, subcategoriaSeleccionada }) => {
   const { token } = useAuth();
@@ -17,7 +18,7 @@ const ModalSubcategoria = ({ cerrarModal, onGuardar, subcategoriaSeleccionada })
 
   const obtenerCategorias = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/categorias", {
+      const res = await fetch(`${API}/categorias`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -41,8 +42,8 @@ const ModalSubcategoria = ({ cerrarModal, onGuardar, subcategoriaSeleccionada })
 
     try {
       const url = subcategoriaSeleccionada
-        ? `http://localhost:4000/api/subcategorias/${subcategoriaSeleccionada.id}`
-        : "http://localhost:4000/api/subcategorias";
+        ? `${API}/subcategorias/${subcategoriaSeleccionada.id}`
+        : `${API}/subcategorias`;
 
       const method = subcategoriaSeleccionada ? "PUT" : "POST";
 

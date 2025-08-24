@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../auth/useAuth";
 import { toast } from 'react-toastify';
-
+import API from "../services/api.js";
 export default function FormularioProducto({ onSuccess, producto = null }) {
   const { token } = useAuth();
   const [formulario, setFormulario] = useState({
@@ -41,9 +41,9 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
     const obtenerDatos = async () => {
       const config = { headers: { Authorization: `Bearer ${token}` } };
       const [resCat, resSub, resProv] = await Promise.all([
-        axios.get("http://localhost:4000/api/categorias", config),
-        axios.get("http://localhost:4000/api/subcategorias", config),
-        axios.get("http://localhost:4000/api/proveedores", config),
+        axios.get(`${API}/categorias`, config),
+        axios.get(`${API}/subcategorias`, config),
+        axios.get(`${API}/proveedores`, config),
       ]);
       setCategorias(resCat.data);
       setSubcategorias(resSub.data);
@@ -82,14 +82,14 @@ export default function FormularioProducto({ onSuccess, producto = null }) {
       if (producto) {
         // Modo edición
         await axios.put(
-          `http://localhost:4000/api/productos/${producto.id}`,
+          `${API}/productos/${producto.id}`,
           formData,
           config
         );
         toast.success("Producto actualizado correctamente");
       } else {
         // Modo creación
-        await axios.post("http://localhost:4000/api/productos", formData, config);
+        await axios.post(`${API}/productos`, formData, config);
         toast.success("Producto creado correctamente");
       }
 

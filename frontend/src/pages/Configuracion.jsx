@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../auth/useAuth";
+import API from "../services/api";
 
 const Configuraciones = () => {
   const { usuario, token } = useAuth();
@@ -20,7 +21,7 @@ const Configuraciones = () => {
   const actualizarPerfil = async (e) => {
     e.preventDefault();
     try {
-      const resp = await fetch(`http://localhost:4000/api/usuarios/perfil`, {
+      const resp = await fetch(`${API}/usuarios/perfil`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import UsuarioForm from "../components/UsuarioForm";
 import axios from "axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import API from "../services/api";
 
 const Usuarios = () => {
   const { token } = useAuth();
@@ -21,7 +22,7 @@ const Usuarios = () => {
 
   const obtenerUsuarios = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/usuarios", {
+      const res = await axios.get(`${API}/usuarios`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsuarios(res.data);
@@ -83,7 +84,7 @@ const Usuarios = () => {
 
   const eliminarUsuario = async (id) => {
     try {
-      await axios.delete(`http://localhost:4000/api/usuarios/${id}`, {
+      await axios.delete(`${API}/usuarios/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       obtenerUsuarios();

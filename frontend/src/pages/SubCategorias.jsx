@@ -3,6 +3,7 @@ import { useAuth } from "../auth/useAuth";
 import ModalSubcategoria from "../components/ModalSubcategoria";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import API from "../services/api";
 
 const SubCategorias = () => {
   const { token, usuario } = useAuth();
@@ -31,7 +32,7 @@ const SubCategorias = () => {
 
   const obtenerSubcategorias = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/subcategorias", {
+      const res = await fetch(`${API}/subcategorias`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -60,7 +61,7 @@ const SubCategorias = () => {
     if (!confirmar) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/api/subcategorias/${id}`, {
+      const res = await fetch(`${API}/subcategorias/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -5,6 +5,7 @@ import CategoriaFormModal from "../components/CategoriaFormModal";
 import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import API from "../services/api";
 
 const Categorias = () => {
   const { token, usuario} = useAuth();
@@ -43,7 +44,7 @@ const Categorias = () => {
 
   const obtenerCategorias = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/categorias", {
+      const res = await fetch(`${API}/categorias`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -77,7 +78,7 @@ const Categorias = () => {
     if (!confirmar) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/api/categorias/${id}`, {
+      const res = await fetch(`${API}/categorias/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

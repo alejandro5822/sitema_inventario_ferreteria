@@ -3,6 +3,7 @@ import { useAuth } from "../auth/useAuth";
 import axios from "axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import API from "../services/api";
 
 const HistorialStock = () => {
   const [historial, setHistorial] = useState([]);
@@ -19,7 +20,7 @@ const HistorialStock = () => {
     const fetchHistorial = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:4000/api/historial-stock",
+          `${API}/historial-stock`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

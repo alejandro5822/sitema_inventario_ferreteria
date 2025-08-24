@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import API from "../services/api";
 
 const ReposicionForm = ({ producto, onCerrar, onSuccess, token }) => {
   const [cantidadSolicitada, setCantidadSolicitada] = useState("");
@@ -17,7 +18,7 @@ const ReposicionForm = ({ producto, onCerrar, onSuccess, token }) => {
     }
     try {
       setCargando(true);
-      const res = await fetch("http://localhost:4000/api/reposiciones", {
+      const res = await fetch(`${API}/reposiciones`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
